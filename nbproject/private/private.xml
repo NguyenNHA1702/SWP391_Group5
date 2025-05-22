@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/F:/SE1911/SWP391_webgiaicuunongsan@@/web/index.jsp</file>
+            <file>file:/F:/SE1911/SWP391_webgiaicuunongsan@@/web/login.jsp</file>
+            <file>file:/F:/SE1911/SWP391_webgiaicuunongsan@@/web/register.jsp</file>
+            <file>file:/F:/SE1911/SWP391_webgiaicuunongsan@@/src/java/dao/UserDAO.java</file>
+            <file>file:/F:/SE1911/SWP391_webgiaicuunongsan@@/web/forgotpassword.jsp</file>
+            <file>file:/F:/SE1911/SWP391_webgiaicuunongsan@@/src/java/model/User.java</file>
+            <file>file:/F:/SE1911/SWP391_webgiaicuunongsan@@/web/FAGs.jsp</file>
+            <file>file:/F:/SE1911/SWP391_webgiaicuunongsan@@/src/java/controller/LoginServlet.java</file>
+            <file>file:/F:/SE1911/SWP391_webgiaicuunongsan@@/web/createCampaign.jsp</file>
+            <file>file:/F:/SE1911/SWP391_webgiaicuunongsan@@/src/java/utils/DBUtil.java</file>
+            <file>file:/F:/SE1911/SWP391_webgiaicuunongsan@@/web/userprofile.jsp</file>
+            <file>file:/F:/SE1911/SWP391_webgiaicuunongsan@@/src/java/controller/RegisterServlet.java</file>
+        </group>
+    </open-files>
+</project-private>
