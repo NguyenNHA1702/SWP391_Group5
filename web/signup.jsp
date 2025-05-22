@@ -116,6 +116,16 @@
             border: 1px solid #ccc;
             cursor: pointer;
         }
+        .farmer-section {
+            display: none;
+            margin-top: 10px;
+        }
+        .farmer-section.active {
+            display: block;
+        }
+        .signup-container input[type="file"] {
+            padding: 5px;
+        }
     </style>
 </head>
 <body>
@@ -132,22 +142,38 @@
 
     <div class="signup-container">
         <h2 id="signup-title">Sign Up for AgriRescue</h2>
-        <input type="text" id="name" placeholder="Full Name *">
-        <input type="email" id="email" placeholder="Email *">
-        <input type="password" id="password" placeholder="Password *">
-        <div style="display: flex; align-items: center;">
-            <select id="country-code">
-                <option value="+84">+84</option>
-            </select>
-            <input type="tel" id="phone" placeholder="Phone Number *" style="width: 80%;">
-        </div>
-        <label>Your data will be stored securely.</label>
-        <div style="text-align: left;">
-            <input type="checkbox" id="terms">
-            <label for="terms">I agree to the Terms of Service and Privacy Policy.</label>
-        </div>
-        <button onclick="handleSignup()">Sign Up for Free</button>
-        <p>Already have an account? <a href="login.jsp">Login here</a></p>
+        <form id="signupForm" enctype="multipart/form-data">
+            <input type="text" id="name" name="name" placeholder="Full Name *">
+            <input type="email" id="email" name="email" placeholder="Email *">
+            <input type="password" id="password" name="password" placeholder="Password *">
+            <div style="display: flex; align-items: center;">
+                <select id="country-code" name="countryCode">
+                    <option value="+84">+84</option>
+                </select>
+                <input type="tel" id="phone" name="phone" placeholder="Phone Number *" style="width: 80%;">
+            </div>
+            <label>Your data will be stored securely.</label>
+            <div style="text-align: left;">
+                <input type="checkbox" id="farmerCheck" name="farmerCheck">
+                <label for="farmerCheck">Register as a Farmer/Cooperative</label>
+            </div>
+            <div class="farmer-section" id="farmerSection">
+                <select id="entityType" name="entityType">
+                    <option value="farmer">Farmer</option>
+                    <option value="cooperative">Cooperative</option>
+                </select>
+                <input type="text" id="farmName" name="farmName" placeholder="Farm/Cooperative Name *">
+                <input type="text" id="farmLocation" name="farmLocation" placeholder="Farm/Cooperative Location *">
+                <label for="verificationDocs">Upload Verification Documents (e.g., farm ownership, cooperative certificate, Certificate of Food Hygiene and Safety) *</label>
+                <input type="file" id="verificationDocs" name="verificationDocs" multiple accept=".pdf,.jpg,.png">
+            </div>
+            <div style="text-align: left;">
+                <input type="checkbox" id="terms" name="terms">
+                <label for="terms">I agree to the Terms of Service and Privacy Policy.</label>
+            </div>
+            <button type="button" onclick="handleSignup()">Sign Up for Free</button>
+            <p>Already have an account? <a href="login.jsp">Login here</a></p>
+        </form>
     </div>
 
     <script>
@@ -159,9 +185,15 @@
                 document.getElementById('password').placeholder = 'Mật khẩu *';
                 document.getElementById('phone').placeholder = 'Số điện thoại *';
                 document.querySelector('.signup-container label').textContent = 'Dữ liệu của bạn sẽ được lưu trữ an toàn.';
-                document.querySelector('.signup-container input[type="checkbox"] + label').textContent = 'Tôi đồng ý với Điều khoản Dịch vụ và Chính sách Bảo mật.';
+                document.querySelector('.signup-container input[type="checkbox"][id="terms"] + label').textContent = 'Tôi đồng ý với Điều khoản Dịch vụ và Chính sách Bảo mật.';
                 document.querySelector('button').textContent = 'Đăng ký miễn phí';
                 document.querySelector('.signup-container p').innerHTML = 'Đã có tài khoản? <a href="login.jsp">Đăng nhập tại đây</a>';
+                document.querySelector('input[id="farmerCheck"] + label').textContent = 'Đăng ký với tư cách Nông dân/Hợp tác xã';
+                document.getElementById('entityType').options[0].text = 'Nông dân';
+                document.getElementById('entityType').options[1].text = 'Hợp tác xã';
+                document.getElementById('farmName').placeholder = 'Tên Nông trại/Hợp tác xã *';
+                document.getElementById('farmLocation').placeholder = 'Vị trí Nông trại/Hợp tác xã *';
+                document.querySelector('label[for="verificationDocs"]').textContent = 'Tải lên Tài liệu Xác minh (ví dụ: giấy tờ sở hữu nông trại, chứng nhận hợp tác xã) *';
             } else {
                 document.getElementById('signup-title').textContent = 'Sign Up for AgriRescue';
                 document.getElementById('name').placeholder = 'Full Name *';
@@ -169,11 +201,24 @@
                 document.getElementById('password').placeholder = 'Password *';
                 document.getElementById('phone').placeholder = 'Phone Number *';
                 document.querySelector('.signup-container label').textContent = 'Your data will be stored securely.';
-                document.querySelector('.signup-container input[type="checkbox"] + label').textContent = 'I agree to the Terms of Service and Privacy Policy.';
+                document.querySelector('.signup-container input[type="checkbox"][id="terms"] + label').textContent = 'I agree to the Terms of Service and Privacy Policy.';
                 document.querySelector('button').textContent = 'Sign Up for Free';
                 document.querySelector('.signup-container p').innerHTML = 'Already have an account? <a href="login.jsp">Login here</a>';
+                document.querySelector('input[id="farmerCheck"] + label').textContent = 'Register as a Farmer/Cooperative';
+                document.getElementById('entityType').options[0].text = 'Farmer';
+                document.getElementById('entityType').options[1].text = 'Cooperative';
+                document.getElementById('farmName').placeholder = 'Farm/Cooperative Name *';
+                document.getElementById('farmLocation').placeholder = 'Farm/Cooperative Location *';
+                document.querySelector('label[for="verificationDocs"]').textContent = 'Upload Verification Documents (e.g., farm ownership, cooperative certificate) *';
             }
         }
+
+        const farmerCheck = document.getElementById('farmerCheck');
+        const farmerSection = document.getElementById('farmerSection');
+
+        farmerCheck.addEventListener('change', function() {
+            farmerSection.classList.toggle('active', this.checked);
+        });
 
         function handleSignup() {
             const name = document.getElementById('name').value;
@@ -181,21 +226,46 @@
             const password = document.getElementById('password').value;
             const phone = document.getElementById('phone').value;
             const terms = document.getElementById('terms').checked;
+            const isFarmer = document.getElementById('farmerCheck').checked;
+            const entityType = document.getElementById('entityType').value;
+            const farmName = document.getElementById('farmName').value;
+            const farmLocation = document.getElementById('farmLocation').value;
+            const verificationDocs = document.getElementById('verificationDocs').files;
 
             if (!name || !email || !password || !phone || !terms) {
                 alert('Vui lòng điền đầy đủ thông tin và đồng ý với điều khoản.');
                 return;
             }
 
+            if (isFarmer && (!farmName || !farmLocation || verificationDocs.length === 0)) {
+                alert('Vui lòng điền đầy đủ thông tin nông trại/hợp tác xã và tải lên tài liệu xác minh.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('name', name);
+            formData.append('email', email);
+            formData.append('password', password);
+            formData.append('phone', phone);
+            formData.append('isFarmer', isFarmer);
+            formData.append('entityType', isFarmer ? entityType : '');
+            formData.append('farmName', isFarmer ? farmName : '');
+            formData.append('farmLocation', isFarmer ? farmLocation : '');
+
+            if (isFarmer) {
+                for (let i = 0; i < verificationDocs.length; i++) {
+                    formData.append('verificationDocs', verificationDocs[i]);
+                }
+            }
+
             fetch('RegisterServlet', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: 'name=' + encodeURIComponent(name) + '&email=' + encodeURIComponent(email) + '&password=' + encodeURIComponent(password) + '&phone=' + encodeURIComponent(phone)
+                body: formData
             })
             .then(response => response.text())
             .then(result => {
                 if (result.includes("success")) {
-                    alert('Đăng ký thành công! Vui lòng đăng nhập.');
+                    alert('Đăng ký thành công! Vui lòng đăng nhập. Tài khoản của bạn sẽ được xem xét để xác minh.');
                     window.location.href = 'login.jsp';
                 } else if (result.includes("exists")) {
                     alert('Email đã tồn tại.');
