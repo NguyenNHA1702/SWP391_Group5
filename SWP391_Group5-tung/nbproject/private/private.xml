@@ -3,21 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/F:/SE1911/SWP391_Group5-tung/SWP391_Group5-tung/src/java/controller/RegisterServlet.java</file>
-            <file>file:/F:/SE1911/SWP391_Group5-tung/SWP391_Group5-tung/src/java/utils/DBUtil.java</file>
-            <file>file:/F:/SE1911/SWP391_Group5-tung/SWP391_Group5-tung/web/login.jsp</file>
-            <file>file:/F:/SE1911/SWP391_Group5-tung/SWP391_Group5-tung/src/java/model/User.java</file>
-            <file>file:/F:/SE1911/SWP391_Group5-tung/SWP391_Group5-tung/src/java/dao/CampaignDAO.java</file>
-            <file>file:/F:/SE1911/SWP391_Group5-tung/SWP391_Group5-tung/web/forgotpassword.jsp</file>
-            <file>file:/F:/SE1911/SWP391_Group5-tung/SWP391_Group5-tung/test/test/TestDBConnection.java</file>
-            <file>file:/F:/SE1911/SWP391_Group5-tung/SWP391_Group5-tung/src/java/model/EditCampaignServlet.java</file>
-            <file>file:/F:/SE1911/SWP391_Group5-tung/SWP391_Group5-tung/src/java/controller/LoginServlet.java</file>
-            <file>file:/F:/SE1911/SWP391_Group5-tung/SWP391_Group5-tung/web/register.jsp</file>
-            <file>file:/F:/SE1911/SWP391_Group5-tung/SWP391_Group5-tung/src/java/controller/EditCampaignServlet.java</file>
-            <file>file:/F:/SE1911/SWP391_Group5-tung/SWP391_Group5-tung/src/java/dao/UserDAO.java</file>
-            <file>file:/F:/SE1911/SWP391_Group5-tung/SWP391_Group5-tung/web/createCampaign.jsp</file>
-            <file>file:/F:/SE1911/SWP391_Group5-tung/SWP391_Group5-tung/web/farmer-dashboard.jsp</file>
-            <file>file:/F:/SE1911/SWP391_Group5-tung/SWP391_Group5-tung/web/editCampaign.jsp</file>
+            <file>file:/D:/Kỳ%205/SWP391/project/bài%20trên%20github/SWP391_Group5/SWP391_Group5-tung/src/java/controller/BrowseServlet.java</file>
+            <file>file:/D:/Kỳ%205/SWP391/project/bài%20trên%20github/SWP391_Group5/SWP391_Group5-tung/src/java/controller/ListCampaignServlet.java</file>
         </group>
     </open-files>
 </project-private>
