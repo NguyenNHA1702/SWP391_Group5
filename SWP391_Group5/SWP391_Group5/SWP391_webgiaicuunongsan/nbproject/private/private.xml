@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/F:/SE1911/SWP391_Group5/SWP391_Group5/SWP391_webgiaicuunongsan/src/java/controller/LoginServlet.java</file>
+            <file>file:/F:/SE1911/SWP391_Group5/SWP391_Group5/SWP391_webgiaicuunongsan/src/java/model/User.java</file>
+            <file>file:/F:/SE1911/SWP391_Group5/SWP391_Group5/SWP391_webgiaicuunongsan/src/java/model/Campaign.java</file>
+            <file>file:/F:/SE1911/SWP391_Group5/SWP391_Group5/SWP391_webgiaicuunongsan/src/java/model/Product.java</file>
+            <file>file:/F:/SE1911/SWP391_Group5/SWP391_Group5/SWP391_webgiaicuunongsan/src/java/controller/RegisterServlet.java</file>
+            <file>file:/F:/SE1911/SWP391_Group5/SWP391_Group5/SWP391_webgiaicuunongsan/src/java/dao/UserDAO.java</file>
+            <file>file:/F:/SE1911/SWP391_Group5/SWP391_Group5/SWP391_webgiaicuunongsan/src/java/utils/DBUtil.java</file>
+            <file>file:/F:/SE1911/SWP391_Group5/SWP391_Group5/SWP391_webgiaicuunongsan/src/java/controller/ListCampaignServlet.java</file>
+            <file>file:/F:/SE1911/SWP391_Group5/SWP391_Group5/SWP391_webgiaicuunongsan/src/java/dao/ProductDAO.java</file>
+            <file>file:/F:/SE1911/SWP391_Group5/SWP391_Group5/SWP391_webgiaicuunongsan/src/java/dao/CampaignDAO.java</file>
+        </group>
+    </open-files>
+</project-private>
