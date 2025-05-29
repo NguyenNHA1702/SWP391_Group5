@@ -249,7 +249,6 @@
             <input type="text" name="fullname" placeholder="Full Name *" required>
             <input type="email" name="email" placeholder="Email *" required>
             <input type="text" name="phone" placeholder="Phone Number *" required>
-            <input type="text" name="address" placeholder="Address *" required>
             <input type="text" name="user" placeholder="Username *" required>
             <input type="password" name="pass" placeholder="Password *" required>
             <input type="hidden" name="role" value="farmer">
@@ -274,7 +273,6 @@
                 document.querySelector('input[name="fullname"]').placeholder = 'Họ và tên *';
                 document.querySelector('input[name="email"]').placeholder = 'Email *';
                 document.querySelector('input[name="phone"]').placeholder = 'Số điện thoại *';
-                document.querySelector('input[name="address"]').placeholder = 'Địa chỉ *';
                 document.querySelector('input[name="user"]').placeholder = 'Tên đăng nhập *';
                 document.querySelector('input[name="pass"]').placeholder = 'Mật khẩu *';
                 document.querySelector('label[for="verificationDocs"]').textContent = 'Tải lên tài liệu xác minh (ví dụ: Giấy phép kinh doanh, Giấy chứng nhận nông nghiệp) *';
@@ -286,7 +284,6 @@
                 document.querySelector('input[name="fullname"]').placeholder = 'Full Name *';
                 document.querySelector('input[name="email"]').placeholder = 'Email *';
                 document.querySelector('input[name="phone"]').placeholder = 'Phone Number *';
-                document.querySelector('input[name="address"]').placeholder = 'Address *';
                 document.querySelector('input[name="user"]').placeholder = 'Username *';
                 document.querySelector('input[name="pass"]').placeholder = 'Password *';
                 document.querySelector('label[for="verificationDocs"]').textContent = 'Upload Verification Documents (e.g., Business License, Agricultural Certificate) *';
