@@ -19,23 +19,24 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title> AgriRescue - Support Our Farmers </title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     </head>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f9f9f5; /* màu nền nhẹ nhàng như đất sáng */
-            color: #2e3a23; /* màu chữ xanh đậm, tự nhiên */
+            background-color: #f9f9f5;
+            color: #2e3a23;
             margin: 0;
             padding: 0 20px 40px 20px;
         }
 
-        /* Header */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #567d46; /* xanh rừng */
+            background-color: rgba(34, 197, 94, 0.9);
+            backdrop-filter: blur(8px);
             padding: 15px 20px;
             color: #f0f7e6;
             box-shadow: 0 2px 5px rgba(0,0,0,0.15);
@@ -67,7 +68,6 @@
             font-weight: 700;
             font-family: 'Georgia', serif;
             color: #f0f7e6;
-            user-select: none;
         }
 
         .home-btn {
@@ -96,7 +96,6 @@
 
         /* Tiêu đề h2 */
         h2 {
-            font-family: 'Georgia', serif;
             font-weight: 700;
             font-size: 1.7rem;
             color: #567d46;
@@ -149,7 +148,7 @@
         table.table-bordered,
         table.table-bordered th,
         table.table-bordered td {
-            border: 2px solid #7b9a44;
+            border: 1px solid #4b5632;
         }
 
         /* Button chi tiết */
@@ -216,6 +215,75 @@
             background-color: #4caf50;
             color: white;
         }
+        form.mb-3.d-flex.gap-2 {
+            flex-wrap: wrap;
+        }
+
+        .input-group-text.bg-white {
+            border-right: none;
+        }
+
+        .form-control {
+            border-left: none;
+        }
+
+        .btn-success i {
+            font-size: 1.1rem;
+        }
+
+        /* Hiệu ứng hover cho bảng */
+        table.table-hover tbody tr:hover {
+            background-color: #e9f5ff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover, .btn-success:hover {
+            filter: brightness(110%);
+            transition: filter 0.3s ease;
+        }
+
+        .pagination .page-item .page-link {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: #0d6efd !important;
+            border-color: #0d6efd !important;
+            color: white !important;
+        }
+
+        .pagination .page-item:hover:not(.active) .page-link {
+            background-color: #cfe2ff;
+            color: #0d6efd;
+            cursor: pointer;
+        }
+
+        .table-responsive {
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgb(0 0 0 / 0.1);
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 20px rgb(0 0 0 / 0.15);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .input-group-text i {
+            color: #0d6efd;
+        }
+
+        .form-control:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 6px #0d6efd99;
+        }
+
+        form.mb-3.d-flex.flex-wrap.gap-2.align-items-center {
+            gap: 12px;
+        }
+
+
     </style>
 </head>
 <body>
@@ -232,18 +300,15 @@
                 </select>
             </div>
             <div class="header-title">AgriRescue</div>
-            <%
-    String loggedUser = (String) session.getAttribute("user");
-    String homeLink = (loggedUser != null) ? (request.getContextPath() + "/home") : "index.jsp";
-%>
-<a href="<%= homeLink %>" class="home-btn">Home Page</a>
-
+            <a href="index.jsp" class="home-btn">Home Page</a>
         </div>
         <div class="header-actions">
             <%
                 if (user == null) {
             %>
-            <a href="login.jsp" class="login">Login</a>
+            <a href="login.jsp" class="login inline-flex items-center gap-2 bg-yellow-400 text-green-900 font-semibold px-4 py-2 rounded-lg hover:bg-yellow-500 shadow-md transition-all duration-200">
+                <i class="bi bi-box-arrow-in-right"></i> Login
+            </a>
             <%
                 } else {
             %>
@@ -263,76 +328,140 @@
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     %>
 
-    <div class="container mt-4">
-        <div class="row">
-            <!-- Campaigns -->
-            <div class="col-12 mb-4">
-                <h2 id="campaignTitle">Chiến dịch hoạt động</h2>
+    <!-- 
+     Hiển thị Chiến dịch hoạt động
+     - Form tìm kiếm và sắp xếp chiến dịch theo tiêu đề và mục tiêu
+     - Bảng danh sách các chiến dịch
+     - Phân trang chiến dịch
+    -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white d-flex align-items-center gap-2">
+            <i class="bi bi-megaphone-fill fs-4"></i>
+            <h2 id="campaignSectionTitle" class="m-0 fs-4" style="color: black;">Chiến dịch hoạt động</h2>
 
-                <div class="table-container">
-                    <table class="table table-bordered table-striped" id="campaignTable">
-                        <thead class="table-success">
-                            <tr>
-                                <th>Tiêu đề chiến dịch</th>
-                                <th>Mô tả</th>
-                                <th>Mục tiêu (VND)</th>
-                                <th>Đã huy động (VND)</th>
-                                <th>Ngày bắt đầu</th>
-                                <th>Ngày kết thúc</th>
-                            </tr>
-                        </thead>
-                        <tbody id="campaignTbody">
-                            <% if (campaigns != null) {
-                        for (Campaign c : campaigns) { %>
-                            <tr class="campaign-row">
-                                <td><%= c.getTitle() %></td>
-                                <td><%= c.getDescription() %></td>
-                                <td><%= currencyFormat.format(c.getGoalAmount()) %></td>
-                                <td><%= currencyFormat.format(c.getCurrentAmount()) %></td>
-                                <td><%= sdf.format(c.getStartDate()) %></td>
-                                <td><%= sdf.format(c.getEndDate()) %></td>
-                            </tr>
-                            <%  } } %>
-                        </tbody>
-                    </table>
+        </div>
+        <div class="card-body">
+            <!-- FORM LỌC CHIẾN DỊCH THEO TIÊU ĐỀ VÀ SẮP XẾP THEO MỤC TIÊU -->
+            <form method="get" action="browse" class="mb-3 d-flex flex-wrap gap-2 align-items-center">
+                <div class="input-group" style="max-width: 320px;">
+                    <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
+                    <input type="text" name="campaignTitle" id="campaignTitleInput" class="form-control border-start-0"
+                           placeholder="Tìm tiêu đề chiến dịch"
+                           value="<%= request.getParameter("campaignTitle") != null ? request.getParameter("campaignTitle") : "" %>">
                 </div>
-                <nav>
-                    <ul class="pagination justify-content-center" id="campaignPagination"></ul>
-                </nav>
+
+                <select name="campaignSort" id="campaignSortSelect" class="form-select" style="max-width: 220px;">
+                    <option value="">-- Sắp xếp theo mục tiêu --</option>
+                    <option value="asc" <%= "asc".equals(request.getParameter("campaignSort")) ? "selected" : "" %>>Mục tiêu thấp đến cao</option>
+                    <option value="desc" <%= "desc".equals(request.getParameter("campaignSort")) ? "selected" : "" %>>Mục tiêu cao đến thấp</option>
+                </select>
+
+                <button type="submit" id="campaignFilterButton" class="btn btn-primary d-flex align-items-center gap-1">
+                    <i class="bi bi-filter"></i> <span id="campaignFilterButtonText">Tìm</span>
+                </button>
+            </form>
+
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle" id="campaignTable">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Tiêu đề chiến dịch</th>
+                            <th>Mô tả</th>
+                            <th>Mục tiêu (VND)</th>
+                            <th>Đã huy động (VND)</th>
+                            <th>Ngày bắt đầu</th>
+                            <th>Ngày kết thúc</th>
+                        </tr>
+                    </thead>
+                    <tbody id="campaignTbody">
+                        <%-- Hiển thị từng chiến dịch từ danh sách campaigns --%>
+                        <% if (campaigns != null) {
+            for (Campaign c : campaigns) { %>
+                        <tr class="campaign-row">
+                            <td><%= c.getTitle() %></td>
+                            <td><%= c.getDescription() %></td>
+                            <td><%= currencyFormat.format(c.getGoalAmount()) %></td>
+                            <td><%= currencyFormat.format(c.getCurrentAmount()) %></td>
+                            <td><%= sdf.format(c.getStartDate()) %></td>
+                            <td><%= sdf.format(c.getEndDate()) %></td>
+                        </tr>
+                        <%  } } %>
+                    </tbody>
+                </table>
             </div>
 
-            <!-- Products -->
-            <div class="">
-                <h2 id="productTitle">Sản phẩm có sẵn</h2>
-                <div class="table-container">
-                    <table class="table table-bordered table-striped" id="productTable">
-                        <thead class="table-success">
-                            <tr>
-                                <th>Tên sản phẩm</th>
-                                <th>Mô tả</th>
-                                <th>Giá (VND)</th>
-                                <th>Số lượng</th>
-                            </tr>
-                        </thead>
-                        <tbody id="productTbody">
-                            <% if (products != null) {
-                        for (Product p : products) { %>
-                            <tr class="product-row">
-                                <td><%= p.getName() %></td>
-                                <td><%= p.getDescription() %></td>
-                                <td><%= currencyFormat.format(p.getPrice()) %></td>
-                                <td><%= p.getQuantity() %></td>
-                            </tr>
-                            <%  } } %>
-                        </tbody>
-                    </table>
-                </div>
-                <nav>
-                    <ul class="pagination justify-content-center" id="productPagination"></ul>
-                </nav>
-            </div>
+            <nav>
+                <ul class="pagination justify-content-center" id="campaignPagination"></ul>
+            </nav>
         </div>
     </div>
+
+    <!-- 
+          Hiển thị Sản phẩm có sẵn
+         - Form tìm kiếm và sắp xếp sản phẩm
+         - Bảng danh sách các sản phẩm
+         - Phân trang sản phẩm -->
+    <!-- Products -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-success text-white d-flex align-items-center gap-2">
+            <i class="bi bi-basket3-fill fs-4"></i>
+            <h2 id="productSectionTitle" class="m-0 fs-4" style="color: black;">Sản phẩm có sẵn</h2>
+        </div>
+
+        <div class="card-body">
+            <form method="get" action="browse" class="mb-3 d-flex flex-wrap gap-2 align-items-center">
+
+                <div style="max-width: 320px;" class="input-group">
+                    <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
+                    <input type="text" name="productName" id="productNameInput" class="form-control border-start-0" placeholder="Tìm tên sản phẩm"
+                           value="<%= request.getParameter("productName") != null ? request.getParameter("productName") : "" %>">
+                </div>
+
+                <select name="productSort" id="productSortSelect" class="form-select" style="max-width: 220px;">
+                    <option value="">-- Sắp xếp theo giá --</option>
+                    <option value="asc" <%= "asc".equals(request.getParameter("productSort")) ? "selected" : "" %>>Giá thấp đến cao</option>
+                    <option value="desc" <%= "desc".equals(request.getParameter("productSort")) ? "selected" : "" %>>Giá cao đến thấp</option>
+                </select>
+
+                <button type="submit" id="productFilterButton" class="btn btn-success d-flex align-items-center gap-1">
+                    <i class="bi bi-filter"></i> <span id="productFilterButtonText">Tìm</span>
+                </button>
+
+            </form>
+
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle" id="productTable">
+                    <thead class="table-success">
+                        <tr>
+                            <th>Tên sản phẩm</th>
+                            <th>Mô tả</th>
+                            <th>Giá (VND)</th>
+                            <th>Số lượng</th>
+                        </tr>
+                    </thead>
+                    <%-- Hiển thị từng sản phẩm từ danh sách products --%>
+                    <tbody id="productTbody">
+                        <% if (products != null) {
+            for (Product p : products) { %>
+                        <tr class="product-row">
+                            <td><%= p.getName() %></td>
+                            <td><%= p.getDescription() %></td>
+                            <td><%= currencyFormat.format(p.getPrice()) %></td>
+                            <td><%= p.getQuantity() %>kg</td>
+                        </tr>
+                        <%  } } %>
+                    </tbody>
+                </table>
+            </div>
+            <!-- PHÂN TRANG SẢN PHẨM -->
+            <nav>
+                <ul class="pagination justify-content-center" id="productPagination"></ul>
+            </nav>
+        </div>
+    </div>
+
 
     <script>
 
@@ -343,6 +472,14 @@
             const loginLink = document.querySelector('.header-actions a.login');
             const logoutLink = document.querySelector('.header-actions a.logout');
             const welcomeSpan = document.querySelector('.header-actions span');
+            const campaignTitleInput = document.getElementById('campaignTitleInput');
+            const campaignSortSelect = document.getElementById('campaignSortSelect');
+            const campaignFilterButtonText = document.getElementById('campaignFilterButtonText');
+            const campaignSectionTitle = document.getElementById('campaignSectionTitle');
+            const productSectionTitle = document.getElementById('productSectionTitle');
+            const productNameInput = document.getElementById('productNameInput');
+            const productSortSelect = document.getElementById('productSortSelect');
+            const productFilterButtonText = document.getElementById('productFilterButtonText');
 
             if (lang === 'vi') {
                 if (homeBtn)
@@ -356,7 +493,40 @@
                 if (welcomeSpan) {
                     const userName = '<%= user != null ? user : "" %>';
                     welcomeSpan.textContent = 'Chào mừng, ' + userName + '!';
+
                 }
+                if (campaignTitleInput)
+                    campaignTitleInput.placeholder = 'Tìm tiêu đề chiến dịch';
+
+                if (campaignSortSelect) {
+                    campaignSortSelect.options[0].text = '-- Sắp xếp theo mục tiêu --';
+                    campaignSortSelect.options[1].text = 'Mục tiêu thấp đến cao';
+                    campaignSortSelect.options[2].text = 'Mục tiêu cao đến thấp';
+                }
+
+                if (campaignFilterButtonText)
+                    campaignFilterButtonText.textContent = 'Tìm';
+
+                if (campaignSectionTitle)
+                    campaignSectionTitle.textContent = 'Chiến dịch hoạt động';
+
+                if (productSectionTitle)
+                    productSectionTitle.textContent = 'Sản phẩm có sẵn';
+
+                if (productNameInput)
+                    productNameInput.placeholder = 'Tìm tên sản phẩm';
+
+                if (productSortSelect) {
+                    productSortSelect.options[0].text = '-- Sắp xếp theo giá --';
+                    productSortSelect.options[1].text = 'Giá thấp đến cao';
+                    productSortSelect.options[2].text = 'Giá cao đến thấp';
+                }
+
+                if (productFilterButtonText)
+                    productFilterButtonText.textContent = 'Tìm';
+
+                if (productSectionTitle)
+                    productSectionTitle.textContent = 'Sản phẩm có sẵn';
 
                 const campaignTitle = document.getElementById('campaignTitle');
                 const productTitle = document.getElementById('productTitle');
@@ -372,6 +542,8 @@
                     if (productTitle)
                         productTitle.textContent = 'Available Products';
                 }
+
+
 
                 // Campaign table headers
                 const campaignHeaders = document.querySelectorAll('#campaignTable thead th');
@@ -406,6 +578,38 @@
                     const userName = '<%= user != null ? user : "" %>';
                     welcomeSpan.textContent = 'Welcome, ' + userName + '!';
                 }
+                if (campaignTitleInput)
+                    campaignTitleInput.placeholder = 'Search campaign title';
+
+                if (campaignSortSelect) {
+                    campaignSortSelect.options[0].text = '-- Sort by goal --';
+                    campaignSortSelect.options[1].text = 'Goal low to high';
+                    campaignSortSelect.options[2].text = 'Goal high to low';
+                }
+
+                if (campaignSectionTitle)
+                    campaignSectionTitle.textContent = 'Active Campaigns';
+
+                if (productSectionTitle)
+                    productSectionTitle.textContent = 'Available Products';
+
+                if (campaignFilterButtonText)
+                    campaignFilterButtonText.textContent = 'Search';
+
+                if (productNameInput)
+                    productNameInput.placeholder = 'Search product name';
+
+                if (productSortSelect) {
+                    productSortSelect.options[0].text = '-- Sort by price --';
+                    productSortSelect.options[1].text = 'Price low to high';
+                    productSortSelect.options[2].text = 'Price high to low';
+                }
+
+                if (productFilterButtonText)
+                    productFilterButtonText.textContent = 'Search';
+
+                if (productSectionTitle)
+                    productSectionTitle.textContent = 'Available Products';
 
                 // Section titles
                 const campaignTitle = document.getElementById('campaignTitle');
@@ -423,7 +627,6 @@
                         productTitle.textContent = 'Available Products';
                 }
 
-                // Campaign table headers
                 const campaignHeaders = document.querySelectorAll('#campaignTable thead th');
                 if (campaignHeaders.length === 6) {
                     campaignHeaders[0].textContent = 'Campaign Title';
@@ -563,4 +766,3 @@
     </div>
 </body>
 </html>
-

@@ -3,13 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/VS_Code/SWP391_webgiaicuunongsan/SWP391_webgiaicuunongsan/web/userprofile.jsp</file>
-            <file>file:/D:/VS_Code/SWP391_webgiaicuunongsan/SWP391_webgiaicuunongsan/src/java/controller/ResetPasswordServlet.java</file>
-            <file>file:/D:/VS_Code/SWP391_webgiaicuunongsan/SWP391_webgiaicuunongsan/src/java/controller/UpdateProfileServlet.java</file>
-            <file>file:/D:/VS_Code/SWP391_webgiaicuunongsan/SWP391_webgiaicuunongsan/src/java/controller/UserProfileServlet.java</file>
-            <file>file:/D:/VS_Code/SWP391_webgiaicuunongsan/SWP391_webgiaicuunongsan/src/java/controller/RegisterServlet.java</file>
-            <file>file:/D:/VS_Code/SWP391_webgiaicuunongsan/SWP391_webgiaicuunongsan/src/java/dao/UserDAO.java</file>
-            <file>file:/D:/VS_Code/SWP391_webgiaicuunongsan/SWP391_webgiaicuunongsan/src/java/model/User.java</file>
+            <file>file:/D:/Kỳ%205/SWP391/SWP391_Group5/SWP391_webgiaicuunongsan/web/Buyer/browse.jsp</file>
+            <file>file:/D:/Kỳ%205/SWP391/SWP391_Group5/SWP391_webgiaicuunongsan/web/Buyer/productDetail.jsp</file>
+            <file>file:/D:/Kỳ%205/SWP391/SWP391_Group5/SWP391_webgiaicuunongsan/src/java/dao/CampaignDAO.java</file>
+            <file>file:/D:/Kỳ%205/SWP391/SWP391_Group5/SWP391_webgiaicuunongsan/web/Farmer/campaignList.jsp</file>
+            <file>file:/D:/Kỳ%205/SWP391/SWP391_Group5/SWP391_webgiaicuunongsan/web/Buyer/productList.jsp</file>
+            <file>file:/D:/Kỳ%205/SWP391/SWP391_Group5/SWP391_webgiaicuunongsan/src/java/controller/ListCampaignServlet.java</file>
+            <file>file:/D:/Kỳ%205/SWP391/SWP391_Group5/SWP391_webgiaicuunongsan/src/java/controller/LoginServlet.java</file>
         </group>
     </open-files>
 </project-private>

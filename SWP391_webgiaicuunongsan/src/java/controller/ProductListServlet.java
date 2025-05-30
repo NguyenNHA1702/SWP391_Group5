@@ -13,6 +13,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Product;
 
@@ -23,43 +24,29 @@ import model.Product;
 @WebServlet(name="ProductListServlet", urlPatterns={"/productList"})
 public class ProductListServlet extends HttpServlet {
    
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ProductListServlet</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ProductListServlet at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    } 
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
-     * Handles the HTTP <code>GET</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+       /**
+     * Xử lý yêu cầu HTTP GET để hiển thị danh sách sản phẩm.
+     * - Nhận tham số tìm kiếm theo tên sản phẩm và tiêu chí sắp xếp
+     * - Lọc và sắp xếp danh sách sản phẩm theo yêu cầu
+     * - Truyền danh sách sản phẩm vào request và chuyển tiếp đến trang productList.jsp
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        List<Product> productList = ProductDAO.getAllProducts();
+         // Lấy tham số tìm kiếm tên sản phẩm từ URL
+        String name = request.getParameter("name");
+        if (name == null) {
+            name = "";
+        }
+         // Lấy tham số sắp xếp sản phẩm
+        String sort = request.getParameter("sort");
+        if (sort == null) {
+            sort = "";
+        }
+         // Lấy danh sách sản phẩm theo tên và tiêu chí sắp xếp
+        List<Product> productList = ProductDAO.getProductsByNameSorted(name, sort);
         request.setAttribute("products", productList);
+         // Chuyển tiếp đến trang danh sách sản phẩm (Buyer/productList.jsp)
         request.getRequestDispatcher("Buyer/productList.jsp").forward(request, response);
     } 
 
@@ -73,7 +60,7 @@ public class ProductListServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        
     }
 
     /** 

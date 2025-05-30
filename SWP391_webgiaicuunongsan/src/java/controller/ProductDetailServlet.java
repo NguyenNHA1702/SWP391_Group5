@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller;
 
 import dao.ProductDAO;
@@ -19,45 +18,21 @@ import model.Product;
  *
  * @author admin
  */
-@WebServlet(name="ProductDetailServlet", urlPatterns={"/productDetail"})
+@WebServlet(name = "ProductDetailServlet", urlPatterns = {"/productDetail"})
 public class ProductDetailServlet extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ProductDetailServlet</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ProductDetailServlet at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
-     * Handles the HTTP <code>GET</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+    /**
+     * Xử lý yêu cầu HTTP GET để hiển thị chi tiết sản phẩm theo ID. - Kiểm tra
+     * tham số 'id' từ URL - Nếu không hợp lệ hoặc không tìm thấy sản phẩm thì
+     * chuyển hướng về danh sách sản phẩm - Nếu hợp lệ, truyền thông tin sản
+     * phẩm vào request và chuyển tiếp đến trang productDetail.jsp
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-          String idStr = request.getParameter("id");
+            throws ServletException, IOException {
+        //    // Lấy tham số 'id' từ URL
+        String idStr = request.getParameter("id");
         if (idStr == null || idStr.isEmpty()) {
             response.sendRedirect("productList");
             return;
@@ -70,18 +45,22 @@ public class ProductDetailServlet extends HttpServlet {
             response.sendRedirect("productList");
             return;
         }
+        // Tìm sản phẩm theo ID
 
         Product product = ProductDAO.getProductById(productId);
         if (product == null) {
             response.sendRedirect("productList");
             return;
         }
+        
+        // Trả kết quả về trang Buyer/productDetail.jsp
         request.setAttribute("product", product);
         request.getRequestDispatcher("Buyer/productDetail.jsp").forward(request, response);
     }
-  
-    /** 
+
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -89,12 +68,13 @@ public class ProductDetailServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        processRequest(request, response);
+            throws ServletException, IOException {
+
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

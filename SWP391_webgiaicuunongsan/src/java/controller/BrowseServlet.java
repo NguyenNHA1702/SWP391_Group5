@@ -25,45 +25,10 @@ import model.Product;
 @WebServlet(name = "BrowseServlet", urlPatterns = {"/browse"})
 public class BrowseServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet BrowseServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet BrowseServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        //Lấy session hiện tại và lấy giá trị role của người dùng
         HttpSession session = request.getSession(false);
         String role = (session != null) ? (String) session.getAttribute("role") : null;
 
@@ -71,27 +36,26 @@ public class BrowseServlet extends HttpServlet {
             response.sendRedirect("login.jsp");
             return;
         }
-        List<Campaign> campaigns = CampaignDAO.getActiveCampaigns();
-        List<Product> products = ProductDAO.getAvailableProducts();
+        //Lấy các tham số tìm kiếm và sắp xếp từ request
 
-        request.setAttribute("campaigns", campaigns);
+       String productName = request.getParameter("productName");
+        String productSort = request.getParameter("productSort");
+        // Tìm kiếm và sắp xếp chiến dịch theo tiêu đề và tiêu chí sắp xếp
+        String campaignTitle = request.getParameter("campaignTitle");
+        String campaignSort = request.getParameter("campaignSort");
+        //Gọi các hàm DAO để tìm kiếm và sắp xếp danh sách sản phẩm và chiến dịch dựa trên các tiêu chí người dùng nhập.
+        List<Product> products = ProductDAO.searchAndSortProducts(productName, productSort);
+        List<Campaign> campaigns = CampaignDAO.searchAndSortCampaigns(campaignTitle, campaignSort);
+
         request.setAttribute("products", products);
-
+        request.setAttribute("campaigns", campaigns);
+        //Chuyển tiếp sang trang Buyer/browse.jsp để hiển thị kết quả
         request.getRequestDispatcher("Buyer/browse.jsp").forward(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
     }
 
     /**

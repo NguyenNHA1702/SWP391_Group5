@@ -19,57 +19,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title> AgriRescue - Support Our Farmers </title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     </head>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f9f9f5; /* màu nền nhẹ nhàng như đất sáng */
-            color: #2e3a23; /* màu chữ xanh đậm, tự nhiên */
-            margin: 0;
-            padding: 0 20px 40px 20px;
+            background: #f8f9fa;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         }
-
-        /* Header */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #567d46; /* xanh rừng */
-            padding: 15px 20px;
-            color: #f0f7e6;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-            border-radius: 8px;
-            margin-bottom: 25px;
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .language-switch select {
-            padding: 5px 10px;
-            border-radius: 5px;
-            border: 1.5px solid #a2b29f;
-            background-color: #f0f7e6;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .language-switch select:hover {
-            border-color: #3e5a22;
-        }
-
-        .header-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            font-family: 'Georgia', serif;
-            color: #f0f7e6;
-            user-select: none;
-        }
-
         .home-btn {
             padding: 8px 15px;
             background-color: #a6c48a;
@@ -83,134 +39,122 @@
             background-color: #8bb05c;
             color: white;
         }
-
-        .header-actions a, .header-actions span {
-            font-weight: 600;
-            color: #f0f7e6;
-            margin-left: 15px;
-            text-decoration: none;
+        .header {
+            background: #28a745;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
-        .header-actions a:hover {
-            text-decoration: underline;
-        }
-
-        /* Tiêu đề h2 */
-        h2 {
-            font-family: 'Georgia', serif;
+        .header h1 {
+            margin: 0;
             font-weight: 700;
-            font-size: 1.7rem;
-            color: #567d46;
-            margin-bottom: 20px;
         }
-
-        /* Bảng sản phẩm */
-        .table-responsive {
-            overflow-x: auto;
-            margin-bottom: 40px;
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
-
-        table.table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: #ffffff;
-            box-shadow: 0 3px 10px rgb(0 0 0 / 0.1);
-            border-radius: 8px;
-            overflow: hidden;
+        .language-switch select {
+            border-radius: 4px;
+            padding: 0.25rem 0.5rem;
+            border: none;
+            font-weight: 600;
         }
-
+        .home-btn, .login, .logout {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .home-btn:hover, .login:hover, .logout:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+        form.d-flex input[type="text"], form.d-flex select {
+            border-radius: 4px;
+            border: 1px solid #ced4da;
+            padding: 0.4rem 0.6rem;
+        }
+        form.d-flex button {
+            background-color: #28a745;
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 0.4rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        form.d-flex button:hover {
+            background-color: #218838;
+        }
         table thead {
-            background-color: #a6c48a;
-            color: #2e3a23;
-            font-weight: 700;
+            background-color: #d4edda;
         }
-
-        table thead th {
-            padding: 12px 15px;
-            border-right: 1px solid #88a055;
-            text-align: left;
-        }
-
-        table thead th:last-child {
-            border-right: none;
-        }
-
-        table tbody td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #e0e5d8;
-            color: #4b5632;
-            vertical-align: middle;
-        }
-
-        table tbody tr:nth-child(even) {
-            background-color: #f7f9f2;
-        }
-
-        /* Các đường viền bảng đậm hơn */
-        table.table-bordered,
-        table.table-bordered th,
-        table.table-bordered td {
-            border: 2px solid #7b9a44;
-        }
-
-        /* Button chi tiết */
-        .btn-detail {
-            display: inline-block;
-            padding: 6px 14px;
-            background-color: #567d46;
-            color: #f0f7e6;
-            border-radius: 5px;
-            font-weight: 600;
-            text-decoration: none;
+        table#productTable tbody tr.product-row:hover {
+            background-color: #e9f5ec;
+            cursor: pointer;
             transition: background-color 0.3s ease;
         }
 
-        .btn-detail:hover {
-            background-color: #3e5a22;
-        }
-
-        /* Phân trang */
-        .pagination {
-            justify-content: center;
-            margin-top: 10px;
-        }
-
-        .pagination li a {
-            color: #567d46;
-            font-weight: 600;
-        }
-
-        .pagination li a:hover {
-            background-color: #a6c48a;
+        .btn-detail {
+            display: inline-block;
+            background-color: #198754;
             color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        .btn-detail:hover {
+            background-color: #0f5132 !important;
+            box-shadow: 0 0 10px #0f5132aa;
+            transform: scale(1.05);
+            transition: all 0.3s ease;
         }
 
-        /* Responsive */
-        @media screen and (max-width: 768px) {
+        form.d-flex button:hover {
+            box-shadow: 0 0 10px #218838cc;
+            transform: scale(1.05);
+            transition: all 0.3s ease;
+        }
+
+        .pagination .page-item .page-link:hover {
+            background-color: #28a745;
+            color: white;
+            box-shadow: 0 0 8px #28a745cc;
+            transition: all 0.3s ease;
+        }
+        .pagination .page-item .page-link {
+            cursor: pointer;
+        }
+        @media (max-width: 600px) {
             .header {
                 flex-direction: column;
-                gap: 10px;
                 text-align: center;
             }
-            .header-left {
-                justify-content: center;
-                gap: 10px;
-            }
-            table thead th, table tbody td {
-                font-size: 14px;
-                padding: 8px 10px;
-            }
-            h2 {
-                font-size: 1.4rem;
+            form.d-flex {
+                flex-direction: column;
+                gap: 0.5rem;
             }
         }
     </style>
+
 </head>
 <body>
     <%
+        // Lấy thông tin người dùng và vai trò từ session
         String user = (String) session.getAttribute("user");
         String role = (String) session.getAttribute("role"); 
         
     %>
+    <!-- HEADER GIAO DIỆN CHÍNH: logo, nút home, login/logout, chuyển ngôn ngữ -->
     <div class="header">
         <div class="header-left">
             <div class="language-switch">
@@ -219,19 +163,16 @@
                     <option value="vi">Tiếng Việt</option>
                 </select>
             </div>
-            <div class="header-title">AgriRescue</div>
-            <%
-    String loggedUser = (String) session.getAttribute("user");
-    String homeLink = (loggedUser != null) ? (request.getContextPath() + "/home") : "index.jsp";
-%>
-<a href="<%= homeLink %>" class="home-btn">Home Page</a>
-
+            <h1 class="text-2xl font-bold text-white header-title">AgriRescue</h1>
+            <a href="index.jsp" class="home-btn">Home Page</a>
         </div>
         <div class="header-actions">
             <%
                 if (user == null) {
             %>
-            <a href="login.jsp" class="login">Login</a>
+            <a href="login.jsp" class="login inline-flex items-center gap-2 bg-yellow-400 text-green-900 font-semibold px-4 py-2 rounded-lg hover:bg-yellow-500 shadow-md transition-all duration-200">
+                <i class="bi bi-box-arrow-in-right"></i> Login
+            </a>
             <%
                 } else {
             %>
@@ -244,49 +185,75 @@
     </div>
 
     <%
+                // Lấy danh sách sản phẩm được truyền từ servlet
             List<Product> products = (List<Product>) request.getAttribute("products");
-
-NumberFormat currencyFormat = NumberFormat.getInstance(new Locale("vi", "VN"));
-SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            NumberFormat currencyFormat = NumberFormat.getInstance(new Locale("vi", "VN"));
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     %>
 
-    <h2>Danh sách sản phẩm </h2>
-
+    <h2 class="text-black p-3 rounded shadow d-inline-flex align-items-center gap-2">
+        <i class="bi bi-box-seam"></i> Danh sách sản phẩm
+    </h2>
     <div class="table-responsive">
+        <!-- FORM TÌM KIẾM VÀ SẮP XẾP SẢN PHẨM -->
+        <form method="get" action="productList" class="mb-3 d-flex gap-2 align-items-center">
+            <div class="input-group">
+                <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                <input type="text" name="name" class="form-control" placeholder="Nhập tên sản phẩm"
+                       value="<%= request.getParameter("name") != null ? request.getParameter("name") : "" %>">
+            </div>
+            <select name="sort" class="form-select" style="max-width: 200px;">
+                <option value="">-- Sắp xếp theo giá --</option>
+                <option value="desc" <%= "desc".equals(request.getParameter("sort")) ? "selected" : "" %>>Giá cao đến thấp</option>
+                <option value="asc" <%= "asc".equals(request.getParameter("sort")) ? "selected" : "" %>>Giá thấp đến cao</option>
+            </select>
+            <!-- NÚT TÌM KIẾM -->
+            <button type="submit" class="btn btn-success d-flex align-items-center gap-1">
+                <i class="bi bi-filter"></i> Tìm kiếm
+            </button>
+        </form>
+
         <table id="productTable" class="table table-bordered table-striped">
             <thead class="table-success">
                 <tr>
-                    <th style="width:5%;">ID</th>
-                    <th style="width:30%;">Tên sản phẩm</th>
+                    <th style="width:5%;">#</th>
+                    <th style="width:35%;">Tên sản phẩm</th>
                     <th style="width:15%;">Giá (VNĐ)</th>
                     <th style="width:10%;">Số lượng còn</th>
-                    <th style="width:15%;">Ngôn ngữ</th>
                     <th style="width:15%;">Ngày tạo</th>
-                    <th style="width:10%;">Chi tiết</th>
+                    <th style="width:5%;">Chi tiết</th>
                 </tr>
             </thead>
             <tbody>
-                <%
-                    if (products != null && !products.isEmpty()) {
-                        for (Product p : products) {
+                <% 
+    // KIỂM TRA CÓ DỮ LIỆU SẢN PHẨM HAY KHÔNG
+    if (products != null && !products.isEmpty()) {
+        int i = 1;
+        for (Product p : products) {
                 %>
                 <tr class="product-row">
-                    <td><%= p.getProductId() %></td>
+                    <td><%= i++ %></td>
                     <td><%= p.getName() %></td>
                     <td><%= currencyFormat.format(p.getPrice()) %></td>
-                    <td><%= p.getQuantity() %></td>
-                    <td><%= p.getLanguage() %></td>
+                    <td><%= p.getQuantity() %>kg</td>
                     <td><%= sdf.format(p.getCreatedAt()) %></td>
-                    <td><a href="productDetail?id=<%= p.getProductId() %>" class="btn-detail">Xem chi tiết</a></td>
+                    <td>
+                        <!-- NÚT XEM CHI TIẾT -->
+                        <a href="productDetail?id=<%= p.getProductId() %>" class="btn-detail">
+                            <i class="bi bi-eye-fill"></i> Xem chi tiết
+                        </a>
+                    </td>
                 </tr>
                 <%
                         }
                     } else {
                 %>
+                <!-- TRƯỜNG HỢP KHÔNG CÓ SẢN PHẨM -->
                 <tr><td colspan="7">Không có sản phẩm nào</td></tr>
                 <%
                     }
                 %>
+
             </tbody>
         </table>
     </div>
@@ -301,95 +268,101 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     <script>
 
                     function changeLanguage(lang) {
-                        if (lang === 'vi') {
-                            document.querySelector('.home-btn').textContent = 'Trang chủ';
-                            document.querySelector('.header-title').textContent = 'AgriRescue';
+                        try {
+                            document.querySelector('.home-btn').textContent = lang === 'vi' ? 'Trang chủ' : 'Home Page';
 
-                            if (document.querySelector('.header-actions a.login')) {
-                                document.querySelector('.header-actions a.login').textContent = 'Đăng nhập';
-                            }
-                            if (document.querySelector('.header-actions a.logout')) {
-                                document.querySelector('.header-actions a.logout').textContent = 'Đăng xuất';
-                            }
-                            if (document.querySelector('.header-actions span')) {
-                                const userName = '<%= user != null ? user : "" %>';
-                                document.querySelector('.header-actions span').textContent = 'Chào mừng, ' + userName + '!';
+                            const title = document.querySelector('.header-title');
+                            if (title)
+                                title.textContent = 'AgriRescue';
+
+                            const loginBtn = document.querySelector('.header-actions a.login');
+                            if (loginBtn)
+                                loginBtn.textContent = lang === 'vi' ? 'Đăng nhập' : 'Login';
+
+                            const logoutBtn = document.querySelector('.header-actions a.logout');
+                            if (logoutBtn)
+                                logoutBtn.textContent = lang === 'vi' ? 'Đăng xuất' : 'Logout';
+
+                            const welcomeSpan = document.querySelector('.header-actions span');
+                            const userName = '<%= user != null ? user : "" %>';
+                            if (welcomeSpan)
+                                welcomeSpan.textContent = lang === 'vi' ? 'Chào mừng, ' + userName + '!' : 'Welcome, ' + userName + '!';
+
+                            // Đổi placeholder ô nhập
+                            const nameInput = document.querySelector('input[name="name"]');
+                            if (nameInput) {
+                                nameInput.placeholder = lang === 'vi' ? 'Nhập tên sản phẩm' : 'Enter product name';
                             }
 
-                            document.querySelector('h2').textContent = 'Danh sách sản phẩm';
+                            // Đổi nút tìm kiếm
+                            const searchBtn = document.querySelector('button[type="submit"]');
+                            if (searchBtn) {
+                                searchBtn.innerHTML = lang === 'vi'
+                                        ? '<i class="bi bi-filter"></i> Tìm kiếm'
+                                        : '<i class="bi bi-filter"></i> Search';
+                            }
+
+                            // Đổi text dropdown sắp xếp
+                            const sortSelect = document.querySelector('select[name="sort"]');
+                            if (sortSelect) {
+                                sortSelect.options[0].text = lang === 'vi' ? '-- Sắp xếp theo giá --' : '-- Sort by price --';
+                                sortSelect.options[1].text = lang === 'vi' ? 'Giá cao đến thấp' : 'Price: High to Low';
+                                sortSelect.options[2].text = lang === 'vi' ? 'Giá thấp đến cao' : 'Price: Low to High';
+                            }
+
+
+                            document.querySelector('h2').textContent = lang === 'vi' ? 'Danh sách sản phẩm' : 'Product List';
 
                             const headers = document.querySelectorAll('#productTable thead th');
-                            if (headers.length >= 7) {
-                                headers[0].textContent = 'ID';
-                                headers[1].textContent = 'Tên sản phẩm';
-                                headers[2].textContent = 'Giá (VNĐ)';
-                                headers[3].textContent = 'Số lượng còn';
-                                headers[4].textContent = 'Ngôn ngữ';
-                                headers[5].textContent = 'Ngày tạo';
-                                headers[6].textContent = 'Chi tiết';
+                            if (headers.length >= 6) {
+                                if (lang === 'vi') {
+                                    headers[0].textContent = '#';
+                                    headers[1].textContent = 'Tên sản phẩm';
+                                    headers[2].textContent = 'Giá (VNĐ)';
+                                    headers[3].textContent = 'Số lượng còn';
+                                    headers[4].textContent = 'Ngày tạo';
+                                    headers[5].textContent = 'Chi tiết';
+                                } else {
+                                    headers[0].textContent = '#';
+                                    headers[1].textContent = 'Product Name';
+                                    headers[2].textContent = 'Price (VND)';
+                                    headers[3].textContent = 'Quantity Left';
+                                    headers[4].textContent = 'Created At';
+                                    headers[5].textContent = 'Detail';
+                                }
                             }
 
                             document.querySelectorAll('.btn-detail').forEach(btn => {
-                                btn.textContent = 'Xem chi tiết';
+                                btn.innerHTML = lang === 'vi' ? '<i class="bi bi-eye-fill"></i> Xem chi tiết' : '<i class="bi bi-eye-fill"></i> View Detail';
                             });
 
-                            const noProductRow = document.querySelector('tbody tr td[colspan="7"]');
+                            const noProductRow = document.querySelector('tbody tr td[colspan="6"]');
                             if (noProductRow) {
-                                noProductRow.textContent = 'Không có sản phẩm nào';
+                                noProductRow.textContent = lang === 'vi' ? 'Không có sản phẩm nào' : 'No products available';
                             }
 
-                        } else {
-                            document.querySelector('.home-btn').textContent = 'Home Page';
-                            document.querySelector('.header-title').textContent = 'AgriRescue';
-
-                            if (document.querySelector('.header-actions a.login')) {
-                                document.querySelector('.header-actions a.login').textContent = 'Login';
-                            }
-                            if (document.querySelector('.header-actions a.logout')) {
-                                document.querySelector('.header-actions a.logout').textContent = 'Logout';
-                            }
-                            if (document.querySelector('.header-actions span')) {
-                                const userName = '<%= user != null ? user : "" %>';
-                                document.querySelector('.header-actions span').textContent = 'Welcome, ' + userName + '!';
-                            }
-
-                            document.querySelector('h2').textContent = 'Product List';
-
-                            const headers = document.querySelectorAll('#productTable thead th');
-                            if (headers.length >= 7) {
-                                headers[0].textContent = 'ID';
-                                headers[1].textContent = 'Product Name';
-                                headers[2].textContent = 'Price (VND)';
-                                headers[3].textContent = 'Quantity Left';
-                                headers[4].textContent = 'Language';
-                                headers[5].textContent = 'Created At';
-                                headers[6].textContent = 'Detail';
-                            }
-
-                            document.querySelectorAll('.btn-detail').forEach(btn => {
-                                btn.textContent = 'View Detail';
-                            });
-
-                            const noProductRow = document.querySelector('tbody tr td[colspan="7"]');
-                            if (noProductRow) {
-                                noProductRow.textContent = 'No products available';
-                            }
+                        } catch (error) {
+                            console.error("Language switch error:", error);
                         }
                     }
 
-                    // Optional: Load saved language from localStorage
+                    // Load saved language on page load
                     window.onload = function () {
-                        const savedLang = localStorage.getItem('lang') || 'en';
-                        document.querySelector('.language-switch select').value = savedLang;
-                        changeLanguage(savedLang);
+                        const savedLang = localStorage.getItem('lang') || 'vi';
+                        const langSelect = document.querySelector('.language-switch select');
+                        if (langSelect) {
+                            langSelect.value = savedLang;
+                            changeLanguage(savedLang);
+
+                            // Gắn sự kiện sau khi DOM đã sẵn sàng
+                            langSelect.addEventListener('change', function () {
+                                localStorage.setItem('lang', this.value);
+                                changeLanguage(this.value);
+                            });
+                        }
                     };
 
-                    // Save language choice to localStorage
-                    document.querySelector('.language-switch select').addEventListener('change', function () {
-                        localStorage.setItem('lang', this.value);
-                    });
-
-                    const rowsPerPage = 6;
+                    const rowsPerPage = 10;
                     function paginateTableWithEllipsis(tableId, rowClass, paginationId) {
                         const rows = Array.from(document.querySelectorAll('#' + tableId + ' tbody tr.' + rowClass));
                         const pagination = document.getElementById(paginationId);
@@ -481,4 +454,6 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
 </body>
 </html>
+
+
 
