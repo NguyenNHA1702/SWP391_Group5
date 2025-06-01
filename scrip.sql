@@ -1,16 +1,17 @@
-
--- Ki?m tra v� t?o c? s? d? li?u
-IF NOT EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'AgriRescue')
+CREATE DATABASE db_AgriRescue;
+USE db_AgriRescue; 
+-- Kiểm tra và tạo cơ sở dữ liệu
+IF NOT EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'AgriRescue_DB')
 BEGIN
-    CREATE DATABASE AgriRescue
+    CREATE DATABASE AgriRescue_DB
 END
 GO
 
--- S? d?ng c? s? d? li?u
-USE AgriRescue
+-- Sử dụng cơ sở dữ liệu
+USE AgriRescue_DB
 GO
 
--- T?o b?ng users (Qu?n l� ng??i d�ng)
+-- Tạo bảng users (Quản lý người dùng)
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'users')
 BEGIN
     CREATE TABLE users (
@@ -32,7 +33,7 @@ BEGIN
 END
 GO
 
--- T?o b?ng products (Qu?n l� s?n ph?m n�ng nghi?p)
+-- Tạo bảng products (Quản lý sản phẩm nông nghiệp)
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'products')
 BEGIN
     CREATE TABLE products (
@@ -49,7 +50,7 @@ BEGIN
 END
 GO
 
--- T?o b?ng campaigns (Qu?n l� chi?n d?ch c?u tr?)
+-- Tạo bảng campaigns (Quản lý chiến dịch cứu trợ)
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'campaigns')
 BEGIN
     CREATE TABLE campaigns (
@@ -69,22 +70,9 @@ BEGIN
     )
 END
 GO
---T?o b?ng Contact/help
-CREATE TABLE contact_requests (
-    contact_id INT IDENTITY(1,1) PRIMARY KEY,
-    user_id INT NOT NULL,
-    name NVARCHAR(100) NOT NULL,
-    email NVARCHAR(100) NOT NULL,
-    subject NVARCHAR(100) NOT NULL,
-    message NVARCHAR(500) NOT NULL,
-    status NVARCHAR(20) CHECK (status IN ('pending', 'resolved')) DEFAULT 'pending',
-    created_at DATETIME DEFAULT GETDATE(),
-    resolved_at DATETIME NULL,
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
-	)
-	
-	
--- T?o b?ng campaign_analytics (Theo d�i hi?u su?t chi?n d?ch)
+
+
+-- Tạo bảng campaign_analytics (Theo dõi hiệu suất chiến dịch)
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'campaign_analytics')
 BEGIN
     CREATE TABLE campaign_analytics (
@@ -99,7 +87,7 @@ BEGIN
 END
 GO
 
--- T?o b?ng orders (Qu?n l� ??n h�ng)
+-- Tạo bảng orders (Quản lý đơn hàng)
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'orders')
 BEGIN
     CREATE TABLE orders (
@@ -116,7 +104,7 @@ BEGIN
 END
 GO
 
--- T?o b?ng messages (H? tr? giao ti?p gi?a ng??i d�ng)
+-- Tạo bảng messages (Hỗ trợ giao tiếp giữa người dùng)
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'messages')
 BEGIN
     CREATE TABLE messages (
@@ -132,7 +120,7 @@ BEGIN
 END
 GO
 
--- T?o b?ng content_moderation (Qu?n l� ki?m duy?t n?i dung)
+-- Tạo bảng content_moderation (Quản lý kiểm duyệt nội dung)
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'content_moderation')
 BEGIN
     CREATE TABLE content_moderation (
@@ -147,7 +135,7 @@ BEGIN
 END
 GO
 
--- T?o b?ng system_settings (Qu?n l� c?u h�nh h? th?ng)
+-- Tạo bảng system_settings (Quản lý cấu hình hệ thống)
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'system_settings')
 BEGIN
     CREATE TABLE system_settings (
@@ -159,8 +147,7 @@ BEGIN
     )
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'join_requests')
-BEGIN
+
 CREATE TABLE join_requests (
     request_id INT IDENTITY(1,1) PRIMARY KEY,
     campaign_id INT NOT NULL,
@@ -171,11 +158,11 @@ CREATE TABLE join_requests (
     status NVARCHAR(20) CHECK (status IN ('pending', 'approved', 'rejected')) DEFAULT 'pending',
     created_at DATETIME DEFAULT GETDATE(),
     FOREIGN KEY (campaign_id) REFERENCES campaigns(campaign_id) ON DELETE CASCADE
-)END
+);
 GO
 
 
--- Th�m d? li?u m?u v�o b?ng users
+-- Thêm dữ liệu mẫu vào bảng users
 SET IDENTITY_INSERT users ON;
 INSERT INTO users (user_id, username, password, name, email, phone, role) VALUES
 (1, N'nguyenvana', HASHBYTES('MD5', 'password123'), N'Nguyen Van A', N'a@example.com', N'+84987654321', N'farmer'),
@@ -184,24 +171,51 @@ INSERT INTO users (user_id, username, password, name, email, phone, role) VALUES
 SET IDENTITY_INSERT users OFF;
 GO
 
--- Th�m d? li?u m?u v�o b?ng products
+-- Thêm dữ liệu mẫu vào bảng products
 SET IDENTITY_INSERT products ON;
 INSERT INTO products (product_id, user_id, name, description, price, quantity, language) VALUES
-(1, 1, N'G?o ST25', N'G?o ch?t l??ng cao t? ??ng Th�p', 15000, 100, N'vi'),
+(1, 1, N'Gạo ST25', N'Gạo chất lượng cao từ Đồng Tháp', 15000, 100, N'vi'),
 (2, 1, N'ST25 Rice', N'High-quality rice from Dong Thap', 15000, 100, N'en'),
-(3, 1, N'G?o ST25', N'G?o ch?t l??ng cao t? ?ong Thap', 15000.00, 100, N'vi');
+(3, 1, N'Gạo ST25', N'Gạo chất lượng cao từ Đong Thap', 15000.00, 100, N'vi'),
+(4, 1, N'Bơ sáp Đắk Lắk', N'Bơ ngon, dẻo, từ Đắk Lắk', 35000, 60, N'vi'),
+(5, 1, N'Dak Lak Avocado', N'Creamy avocado from Dak Lak', 35000, 60, N'en'),
+(6, 1, N'Mít thái', N'Mít chín cây thơm ngon từ miền Tây', 25000, 50, N'vi'),
+(7, 1, N'Thai Jackfruit', N'Fresh jackfruit harvested from Mekong Delta', 25000, 50, N'en'),
+(8, 1, N'Dưa hấu Long An', N'Dưa hấu đỏ, ngọt, chất lượng cao', 10000, 120, N'vi'),
+(9, 1, N'Long An Watermelon', N'Sweet red watermelon from Long An province', 10000, 120, N'en'),
+(10, 1, N'Chuối xiêm', N'Chuối xiêm miền Tây, ngọt và mềm', 12000, 80, N'vi'),
+(11, 1, N'Mekong Banana', N'Mekong bananas, sweet and soft', 12000, 80, N'en'),
+(12, 1, N'Khoai lang Nhật', N'Khoai lang ngọt thơm, giống Nhật', 18000, 70, N'vi'),
+(13, 1, N'Japanese Sweet Potato', N'Sweet potato variety from Japan', 18000, 70, N'en');
+
 SET IDENTITY_INSERT products OFF;
 GO
 
--- Th�m d? li?u m?u v�o b?ng campaigns
+
+
+
+-- Thêm dữ liệu mẫu vào bảng campaigns
 SET IDENTITY_INSERT campaigns ON;
 INSERT INTO campaigns (campaign_id, user_id, title, description, goal_amount, current_amount, start_date, end_date, language, status, created_at, admin_status) VALUES
-(1, 1, N'H? tr? n�ng d�n ??ng Th�p', N'Gi�p ?? n�ng d�n b? ?nh h??ng l? l?t', 50000000.00, 20000.00, '2025-05-01', '2025-06-01', N'vi', N'news', '2025-05-24T19:50:21.023', N'pending'),
-(2, 1, N'Support Dong Thap Farmers', N'Help farmers affected by floods', 50000000.00, 0.00, '2025-05-01', '2025-06-01', N'en', N'news', '2025-05-24T19:50:21.023', N'pending');
+(1, 1, N'Hỗ trợ nông dân Đồng Tháp', N'Giúp đỡ nông dân bị ảnh hưởng lũ lụt', 50000000.00, 20000.00, '2025-05-01', '2025-06-01', N'vi', N'news', '2025-05-24T19:50:21.023', N'pending'),
+(2, 1, N'Support Dong Thap Farmers', N'Help farmers affected by floods', 50000000.00, 0.00, '2025-05-01', '2025-06-01', N'en', N'news', '2025-05-24T19:50:21.023', N'pending'),
+(3, 1, N'Hỗ trợ tiêu thụ bơ Đắk Lắk', N'Giúp nông dân bán bơ sáp', 30000000, 0, '2025-06-01', '2025-06-20', N'vi', N'news', GETDATE(), N'pending'),
+(4, 1, N'Support Dak Lak Avocados', N'Help farmers sell avocado surplus', 30000000, 0, '2025-06-01', '2025-06-20', N'en', N'news', GETDATE(), N'pending'),
+(5, 1, N'Giải cứu mít thái miền Tây', N'Hỗ trợ bán mít thái chín cây', 35000000, 0, '2025-06-02', '2025-06-22', N'vi', N'news', GETDATE(), N'pending'),
+(6, 1, N'Rescue Thai Jackfruit', N'Support Thai jackfruit farmers', 35000000, 0, '2025-06-02', '2025-06-22', N'en', N'news', GETDATE(), N'pending'),
+(7, 1, N'Giải cứu dưa hấu Long An', N'Dưa hấu đang tồn kho, cần giải cứu', 40000000, 0, '2025-06-03', '2025-06-25', N'vi', N'news', GETDATE(), N'pending'),
+(8, 1, N'Save Long An Watermelons', N'Watermelon rescue campaign', 40000000, 0, '2025-06-03', '2025-06-25', N'en', N'news', GETDATE(), N'pending'),
+(9, 1, N'Ủng hộ nông dân trồng chuối', N'Tiêu thụ chuối xiêm số lượng lớn', 20000000, 0, '2025-06-04', '2025-06-18', N'vi', N'news', GETDATE(), N'pending'),
+(10, 1, N'Support Banana Growers', N'Rescue banana stocks from Mekong', 20000000, 0, '2025-06-04', '2025-06-18', N'en', N'news', GETDATE(), N'pending'),
+(11, 1, N'Tiêu thụ khoai lang Nhật', N'Giải cứu khoai lang Nhật từ Vĩnh Long', 25000000, 0, '2025-06-05', '2025-06-20', N'vi', N'news', GETDATE(), N'pending'),
+(12, 1, N'Sell Japanese Sweet Potatoes', N'Promote sweet potatoes from Vinh Long', 25000000, 0, '2025-06-05', '2025-06-20', N'en', N'news', GETDATE(), N'pending');
 SET IDENTITY_INSERT campaigns OFF;
 GO
 
-GO
+
+
+
+
 SET ANSI_PADDING ON
 GO
 
@@ -319,7 +333,7 @@ GO
 
 
 
--- Duy?t t?t c? c�c chi?n d?ch test
+-- Duyệt tất cả các chiến dịch test
 UPDATE campaigns
 SET status = 
     CASE 
@@ -365,7 +379,7 @@ BEGIN
           AND i.status <> 'completed' 
     )
     BEGIN
-        RAISERROR('C?t "status" kh�ng ???c ch?nh s?a tr?c ti?p. Vui l�ng c?p nh?t th�ng qua "admin_status".', 16, 1);
+        RAISERROR('Cột "status" không được chỉnh sửa trực tiếp. Vui lòng cập nhật thông qua "admin_status".', 16, 1);
         ROLLBACK;
         RETURN;
     END
@@ -388,17 +402,23 @@ END;
 
 
 
--- Ki?m tra d? li?u
+-- Kiểm tra dữ liệu
 SELECT * FROM users
 SELECT * FROM products
 SELECT * FROM campaigns
 GO
 USE AgriRescue_DB;
 SELECT * FROM campaigns;
--- Ki?m tra c� chi?n d?ch n�o th?a kh�ng
+-- Kiểm tra có chiến dịch nào thỏa không
 SELECT * FROM campaigns
-WHERE status = 'active' AND admin_status = 'approved' AND GETDATE() BETWEEN start_date AND end_date;
+WHERE status = 'active' AND admin_status = 'accepted' AND GETDATE() BETWEEN start_date AND end_date;
 
 
 SELECT * FROM join_requests;
+
+UPDATE campaigns
+SET admin_status = 'accepted'
+WHERE campaign_id = 2;
+
+
 
