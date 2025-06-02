@@ -9,8 +9,8 @@
         <style>
             body {
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                background-color: #f9f9f5; /* Nền đất sáng, đồng bộ với campaignList.jsp */
-                color: #2e3a23; /* Màu chữ xanh đậm */
+                background-color: #f9f9f5;
+                color: #2e3a23;
                 margin: 0;
                 padding: 0;
                 min-height: 100vh;
@@ -20,12 +20,11 @@
                 align-items: center;
             }
 
-            /* Header */
             .header {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                background-color: #567d46; /* Xanh rừng, đồng bộ */
+                background-color: #567d46;
                 padding: 15px 20px;
                 color: #f0f7e6;
                 box-shadow: 0 2px 5px rgba(0,0,0,0.15);
@@ -67,7 +66,7 @@
 
             .home-btn {
                 padding: 8px 15px;
-                background-color: #a6c48a; /* Xanh nhạt, đồng bộ */
+                background-color: #a6c48a;
                 color: #2e3a23;
                 font-weight: 600;
                 border-radius: 6px;
@@ -89,7 +88,6 @@
                 text-decoration: underline;
             }
 
-            /* Signup container */
             .signup-container {
                 background-color: #fff;
                 padding: 30px;
@@ -97,7 +95,7 @@
                 box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
                 width: 100%;
                 max-width: 600px;
-                margin: 100px auto 20px auto; /* Đẩy xuống để không bị che bởi header */
+                margin: 100px auto 20px auto;
                 text-align: center;
             }
 
@@ -105,7 +103,7 @@
                 font-family: 'Georgia', serif;
                 font-weight: 700;
                 font-size: 1.6rem;
-                color: #567d46; /* Đồng bộ với header */
+                color: #567d46;
                 margin-bottom: 20px;
                 text-transform: uppercase;
                 letter-spacing: 1px;
@@ -121,7 +119,7 @@
                 font-size: 14px;
                 box-sizing: border-box;
                 transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-                background-color: #f7f9f2; /* Nền nhạt, đồng bộ bảng */
+                background-color: #f7f9f2;
             }
 
             .signup-container input:focus,
@@ -147,7 +145,7 @@
             .signup-container button {
                 width: 100%;
                 padding: 12px;
-                background: linear-gradient(90deg, #567d46, #3e5a22); /* Gradient đồng bộ header */
+                background: linear-gradient(90deg, #567d46, #3e5a22);
                 color: #f0f7e6;
                 border: none;
                 border-radius: 6px;
@@ -187,7 +185,13 @@
                 margin-bottom: 15px;
             }
 
-            /* Responsive */
+            .error-message {
+                color: #dc3545;
+                font-weight: 600;
+                margin-bottom: 15px;
+                display: none;
+            }
+
             @media screen and (max-width: 768px) {
                 .header {
                     flex-direction: column;
@@ -223,10 +227,8 @@
         String homeLink = (loggedUser != null) ? (request.getContextPath() + "/home") : "index.jsp";
                 %>
                 <a href="<%= homeLink %>" class="home-btn">Home Page</a>
-
             </div>
             <div class="header-actions">
-                <!-- Không có login/logout ở đây vì đang ở trang signup -->
             </div>
         </div>
 
@@ -236,12 +238,13 @@
             <% if (successMsg != null) { %>
             <p class="success-message"><%= successMsg %></p>
             <% } %>
-            <form action="register" method="post">
+            <p id="password-error" class="error-message">Password must be at least 6 characters long</p>
+            <form action="register" method="post" onsubmit="return validateForm()">
                 <input type="text" name="fullname" placeholder="Full Name *" required>
                 <input type="email" name="email" placeholder="Email *" required>
                 <input type="text" name="phone" placeholder="Phone Number *" required>
                 <input type="text" name="user" placeholder="Username *" required>
-                <input type="password" name="pass" placeholder="Password *" required>
+                <input type="password" name="pass" id="password" placeholder="Password *" required>
 
                 <button type="submit">Sign Up for Free</button>
             </form>
@@ -251,12 +254,25 @@
         </div>
 
         <script>
+            function validateForm() {
+                const password = document.getElementById('password').value;
+                const errorMessage = document.getElementById('password-error');
+                
+                if (password.length < 6) {
+                    errorMessage.style.display = 'block';
+                    return false;
+                }
+                errorMessage.style.display = 'none';
+                return true;
+            }
+
             function changeLanguage(lang) {
                 if (lang === 'vi') {
                     document.getElementById('signup-title').textContent = 'Đăng ký AgriRescue';
                     document.querySelector('button').textContent = 'Đăng ký miễn phí';
-                    document.querySelector('p:nth-child(3)').innerHTML = 'Đã có tài khoản? <a href="login.jsp">Đăng nhập tại đây</a>';
-                    document.querySelector('p:nth-child(4)').innerHTML = 'Bạn là nông dân hoặc hợp tác xã? <a href="farmerSignUp.jsp">Đăng ký cho Nông dân</a>';
+                    document.querySelector('p:nth-child(4)').innerHTML = 'Đã có tài khoản? <a href="login.jsp">Đăng nhập tại đây</a>';
+                    document.querySelector('p:nth-child(5)').innerHTML = 'Bạn là nông dân hoặc hợp tác xã? <a href="farmerSignUp.jsp">Đăng ký cho Nông dân</a>';
+                    document.getElementById('password-error').textContent = 'Mật khẩu phải có ít nhất 6 ký tự';
                     document.querySelector('input[name="fullname"]').placeholder = 'Họ và tên *';
                     document.querySelector('input[name="email"]').placeholder = 'Email *';
                     document.querySelector('input[name="phone"]').placeholder = 'Số điện thoại *';
@@ -265,8 +281,9 @@
                 } else {
                     document.getElementById('signup-title').textContent = 'Sign Up for AgriRescue';
                     document.querySelector('button').textContent = 'Sign Up for Free';
-                    document.querySelector('p:nth-child(3)').innerHTML = 'Already have an account? <a href="login.jsp">Login here</a>';
-                    document.querySelector('p:nth-child(4)').innerHTML = 'Are you a farmer or cooperative? <a href="farmerSignUp.jsp">Sign Up for Farmer</a>';
+                    document.querySelector('p:nth-child(4)').innerHTML = 'Already have an account? <a href="login.jsp">Login here</a>';
+                    document.querySelector('p:nth-child(5)').innerHTML = 'Are you a farmer or cooperative? <a href="farmerSignUp.jsp">Sign Up for Farmer</a>';
+                    document.getElementById('password-error').textContent = 'Password must be at least 6 characters long';
                     document.querySelector('input[name="fullname"]').placeholder = 'Full Name *';
                     document.querySelector('input[name="email"]').placeholder = 'Email *';
                     document.querySelector('input[name="phone"]').placeholder = 'Phone Number *';

@@ -90,6 +90,13 @@
             .login-container button:hover {
                 background-color: #1b5e20;
             }
+            .login-container a {
+                color: #2e7d32;
+                text-decoration: none;
+            }
+            .login-container a:hover {
+                text-decoration: underline;
+            }
             .language-switch select {
                 padding: 5px;
                 border-radius: 5px;
@@ -104,11 +111,10 @@
             <div class="header-left">
                 <div class="header-title">AgriRescue</div>
                 <%
-    String loggedUser = (String) session.getAttribute("user");
-    String homeLink = (loggedUser != null) ? (request.getContextPath() + "/home") : "index.jsp";
+                    String loggedUser = (String) session.getAttribute("user");
+                    String homeLink = (loggedUser != null) ? (request.getContextPath() + "/home") : "index.jsp";
                 %>
                 <a href="<%= homeLink %>" class="home-btn">Home Page</a>
-
             </div>
             <div class="language-switch">
                 <select onchange="changeLanguage(this.value)">
@@ -123,6 +129,7 @@
             <input type="email" id="email" placeholder="Email *">
             <input type="password" id="password" placeholder="Password *">
             <button id="login-btn" onclick="handleLogin()">Login</button>
+            <p id="forgot-password-text"><a href="forgot-password.jsp">Forgot Password?</a></p>
             <p id="signup-text">Don't have an account? <a href="signup.jsp">Sign Up here</a></p>
         </div>
 
@@ -133,12 +140,14 @@
                     document.getElementById('email').placeholder = 'Địa chỉ email *';
                     document.getElementById('password').placeholder = 'Mật khẩu *';
                     document.getElementById('login-btn').textContent = 'Đăng nhập';
+                    document.getElementById('forgot-password-text').innerHTML = '<a href="forgot-password.jsp">Quên mật khẩu?</a>';
                     document.getElementById('signup-text').innerHTML = 'Chưa có tài khoản? <a href="signup.jsp">Đăng ký tại đây</a>';
                 } else {
                     document.getElementById('login-title').textContent = 'Login to AgriRescue';
                     document.getElementById('email').placeholder = 'Email *';
                     document.getElementById('password').placeholder = 'Password *';
                     document.getElementById('login-btn').textContent = 'Login';
+                    document.getElementById('forgot-password-text').innerHTML = '<a href="forgot-password.jsp">Forgot Password?</a>';
                     document.getElementById('signup-text').innerHTML = 'Don\'t have an account? <a href="signup.jsp">Sign Up here</a>';
                 }
             }
