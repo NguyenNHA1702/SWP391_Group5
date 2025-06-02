@@ -300,11 +300,7 @@
                 </select>
             </div>
             <div class="header-title">AgriRescue</div>
-            <%
-    String loggedUser = (String) session.getAttribute("user");
-    String homeLink = (loggedUser != null) ? (request.getContextPath() + "/home") : "index.jsp";
-                %>
-            <a href="<%= homeLink %>" class="home-btn">Home Page</a>
+            <a href="index.jsp" class="home-btn">Home Page</a>
         </div>
         <div class="header-actions">
             <%

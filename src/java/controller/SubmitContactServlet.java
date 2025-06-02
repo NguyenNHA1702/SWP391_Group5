@@ -13,7 +13,7 @@ import java.sql.*;
 @WebServlet("/submitContact")
 public class SubmitContactServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private static final String DB_URL = "jdbc:sqlserver://localhost:1433;databaseName=AgriRescue;encrypt=true;trustServerCertificate=true";
+    private static final String DB_URL = "jdbc:sqlserver://localhost:1433;databaseName=AgriRescue_DB;encrypt=true;trustServerCertificate=true";
     private static final String DB_USER = "sa";
     private static final String DB_PASSWORD = "123";
 

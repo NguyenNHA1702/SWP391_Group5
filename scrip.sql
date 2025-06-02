@@ -1,6 +1,4 @@
-CREATE DATABASE db_AgriRescue;
-USE db_AgriRescue; 
--- Kiểm tra và tạo cơ sở dữ liệu
+
 IF NOT EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'AgriRescue_DB')
 BEGIN
     CREATE DATABASE AgriRescue_DB
@@ -331,6 +329,19 @@ GO
 ALTER TABLE [dbo].[users]  WITH CHECK ADD CHECK  (([role]='admin' OR [role]='buyer' OR [role]='farmer'))
 GO
 
+CREATE TABLE contact_requests (
+    contact_id INT IDENTITY(1,1) PRIMARY KEY,
+    user_id INT NOT NULL,
+    name NVARCHAR(100) NOT NULL,
+    email NVARCHAR(100) NOT NULL,
+    subject NVARCHAR(100) NOT NULL,
+    message NVARCHAR(500) NOT NULL,
+    status NVARCHAR(20) CHECK (status IN ('pending', 'resolved')) DEFAULT 'pending',
+    created_at DATETIME DEFAULT GETDATE(),
+    resolved_at DATETIME NULL,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+	)
+
 
 
 -- Duyệt tất cả các chiến dịch test
@@ -418,7 +429,11 @@ SELECT * FROM join_requests;
 
 UPDATE campaigns
 SET admin_status = 'accepted'
-WHERE campaign_id = 2;
+WHERE campaign_id = 5;
+
+UPDATE campaigns
+SET admin_status = 'rejected'
+WHERE campaign_id = 6;
 
 
 

@@ -105,11 +105,7 @@
     <header class="bg-green-600 text-white py-4 px-6 flex justify-between items-center">
         <h1 class="text-2xl font-bold">User Profile</h1>
         <div>
-            <%
-    String loggedUser = (String) session.getAttribute("user");
-    String homeLink = (loggedUser != null) ? (request.getContextPath() + "/home") : "index.jsp";
-                %>
-            <a href="<%= homeLink %>" class="text-white hover:underline mr-4">Back to Home</a>
+            <a href="index.jsp" class="text-white hover:underline mr-4">Back to Home</a>
             <a href="LogoutServlet" class="text-white hover:underline">Logout</a>
         </div>
     </header>
