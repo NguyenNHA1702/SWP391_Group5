@@ -211,6 +211,15 @@
                                 String shortDesc = description.length() > 100 ? description.substring(0, 100) + "..." : description;
                     %>
                     <div class="campaign-card bg-white rounded-xl shadow-md p-6">
+                        <%
+     String imageUrl = campaign.getImageUrl(); // đảm bảo có getter
+     String imagePath = imageUrl != null && !imageUrl.isEmpty()
+                        ? request.getContextPath() + imageUrl
+                        : request.getContextPath() + "/assets/images/default.jpg"; // fallback ảnh mặc định
+                        %>
+                        <img src="<%= imagePath %>" alt="Campaign Image" class="w-full h-40 object-cover rounded-lg mb-4">
+
+
                         <h3 class="text-xl font-semibold text-green-700 mb-2"><%= campaign.getTitle() %></h3>
                         <p class="text-gray-600 mb-2"><%= shortDesc %></p>
                         <p class="text-sm text-red-600 font-semibold countdown" data-end-time="<%= end.getTime() %>">

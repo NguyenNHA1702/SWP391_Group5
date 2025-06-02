@@ -7,10 +7,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import dao.UserDAO;
 import utils.DBUtil;
 
 @WebServlet("/UpdateProfileServlet")
@@ -35,7 +38,7 @@ public class UpdateProfileServlet extends HttpServlet {
             return;
         }
 
-        String username = request.getParameter("username");
+        String username = null;
         String fullName = request.getParameter("fullName");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
@@ -44,60 +47,49 @@ public class UpdateProfileServlet extends HttpServlet {
         String currentPhone = null;
 
         try (Connection conn = DBUtil.getConnection()) {
-            // Lấy thông tin hiện tại của người dùng
-            String sql = "SELECT email, phone FROM users WHERE user_id = ?";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, Integer.parseInt(userId));
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                currentEmail = rs.getString("email");
-                currentPhone = rs.getString("phone");
-            } else {
-                response.sendRedirect("userprofile.jsp?error=User not found.");
-                return;
+            // Lấy thông tin hiện tại của người dùng (username, email, phone)
+            String sql = "SELECT username, email, phone FROM users WHERE user_id = ?";
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setInt(1, Integer.parseInt(userId));
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        username = rs.getString("username");
+                        currentEmail = rs.getString("email");
+                        currentPhone = rs.getString("phone");
+                    } else {
+                        response.sendRedirect("userprofile.jsp?error=" + URLEncoder.encode("User not found.", StandardCharsets.UTF_8));
+                        return;
+                    }
+                }
             }
 
             // Kiểm tra email trùng lặp
             if (!email.equals(currentEmail)) {
-                sql = "SELECT COUNT(*) FROM users WHERE email = ? AND user_id != ?";
-                ps = conn.prepareStatement(sql);
-                ps.setString(1, email);
-                ps.setInt(2, Integer.parseInt(userId));
-                rs = ps.executeQuery();
-                if (rs.next() && rs.getInt(1) > 0) {
-                    response.sendRedirect("userprofile.jsp?error=Email already exists.");
+                if (UserDAO.INSTANCE.isEmailExist(email)) {
+                    response.sendRedirect("userprofile.jsp?error=" + URLEncoder.encode("Email already exists.", StandardCharsets.UTF_8));
                     return;
                 }
             }
 
             // Kiểm tra số điện thoại trùng lặp
             if (phone != null && !phone.trim().isEmpty() && !phone.equals(currentPhone)) {
-                sql = "SELECT COUNT(*) FROM users WHERE phone = ? AND user_id != ?";
-                ps = conn.prepareStatement(sql);
-                ps.setString(1, phone);
-                ps.setInt(2, Integer.parseInt(userId));
-                rs = ps.executeQuery();
-                if (rs.next() && rs.getInt(1) > 0) {
-                    response.sendRedirect("userprofile.jsp?error=Phone number already exists.");
+                if (UserDAO.INSTANCE.isPhoneExist(phone)) {
+                    response.sendRedirect("userprofile.jsp?error=" + URLEncoder.encode("Phone number already exists.", StandardCharsets.UTF_8));
                     return;
                 }
             }
 
             // Cập nhật thông tin người dùng
-            String sqlUpdate = "UPDATE users SET name = ?, email = ?, phone = ? WHERE user_id = ?";
-            PreparedStatement psUpdate = conn.prepareStatement(sqlUpdate);
-            psUpdate.setString(1, fullName);
-            psUpdate.setString(2, email);
-            psUpdate.setString(3, phone != null && !phone.trim().isEmpty() ? phone : null);
-            psUpdate.setInt(4, Integer.parseInt(userId));
-            psUpdate.executeUpdate();
-
-            response.sendRedirect("userprofile.jsp?success=Profile updated successfully.");
+            boolean updated = UserDAO.INSTANCE.updateProfile(username, fullName, email, phone, null);
+            if (updated) {
+                response.sendRedirect("userprofile.jsp?success=" + URLEncoder.encode("Profile updated successfully.", StandardCharsets.UTF_8));
+            } else {
+                response.sendRedirect("userprofile.jsp?error=" + URLEncoder.encode("Failed to update profile.", StandardCharsets.UTF_8));
+            }
         } catch (SQLException e) {
-            response.sendRedirect("userprofile.jsp?error=Error updating profile: " + e.getMessage());
+            response.sendRedirect("userprofile.jsp?error=" + URLEncoder.encode("Database error: " + e.getMessage(), StandardCharsets.UTF_8));
         } catch (Exception e) {
-            response.sendRedirect("userprofile.jsp?error=Unexpected error: " + e.getMessage());
+            response.sendRedirect("userprofile.jsp?error=" + URLEncoder.encode("Unexpected error: " + e.getMessage(), StandardCharsets.UTF_8));
         }
     }
 }

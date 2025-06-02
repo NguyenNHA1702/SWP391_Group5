@@ -162,7 +162,7 @@ public class CampaignDAO {
 
     public List<Campaign> getApprovedActiveCampaigns() {
         List<Campaign> list = new ArrayList<>();
-        String sql = "SELECT * FROM campaigns WHERE status = 'active' AND admin_status = 'approved' AND GETDATE() BETWEEN start_date AND end_date";
+        String sql = "SELECT * FROM campaigns WHERE status = 'active' AND admin_status = 'accepted' AND GETDATE() BETWEEN start_date AND end_date";
 
         try (Connection conn = DBUtil.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
@@ -187,6 +187,8 @@ public class CampaignDAO {
 
                 Timestamp createdTimestamp = rs.getTimestamp("created_at");
                 c.setCreatedAt(createdTimestamp != null ? new Date(createdTimestamp.getTime()) : null);
+                c.setImageUrl(rs.getString("image_url")); // Thêm dòng này
+
 
                 list.add(c);
             }

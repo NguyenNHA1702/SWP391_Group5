@@ -17,8 +17,8 @@ import dao.UserDAO;
 import model.User;
 import utils.DBUtil;
 
-@WebServlet("/ResetPasswordServlet")
-public class ResetPasswordServlet extends HttpServlet {
+@WebServlet("/ChangePasswordServlet")
+public class ChangePasswordServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -64,12 +64,12 @@ public class ResetPasswordServlet extends HttpServlet {
                         } else if (newPassword.length() < 6) {
                             message = "New password must be at least 6 characters.";
                         } else {
-                            // Cập nhật mật khẩu mới (không mã hóa)
+                            // Cập nhật mật khẩu mới (không mã hóa, sử dụng UserDAO)
                             boolean updated = UserDAO.INSTANCE.updatePassword(username, newPassword);
                             if (updated) {
-                                message = "Password reset successfully.";
+                                message = "Password changed successfully.";
                             } else {
-                                message = "Failed to reset password.";
+                                message = "Failed to change password.";
                             }
                         }
                     } else {

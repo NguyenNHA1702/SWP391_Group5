@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 public class DBUtil {
 
     public static Connection getConnection() throws Exception {
-        String url = "jdbc:sqlserver://localhost:1433;databaseName=AgriRescue";
+        String url = "jdbc:sqlserver://localhost:1433;databaseName=AgriRescue_DB";
         String user = "sa";
         String password = "123"; // mật khẩu của bạn
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");

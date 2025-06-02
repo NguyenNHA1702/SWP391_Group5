@@ -300,7 +300,11 @@
                 </select>
             </div>
             <div class="header-title">AgriRescue</div>
-            <a href="index.jsp" class="home-btn">Home Page</a>
+                 <%
+        String ctx = request.getContextPath();
+        String homeLink = (user != null) ? ctx + "/home" : ctx + "/index.jsp";
+                %>
+            <a href=<%= homeLink %> class="home-btn">Home Page</a>
         </div>
         <div class="header-actions">
             <%
@@ -754,15 +758,5 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-
-    <div class="footer">
-        <div class="contact-help">
-            <a href="#" onclick="navigate('Contact / Help Center')">Contact / Help Center</a>
-        </div>
-        <div class="faq">
-            <a href="#" onclick="navigate('FAQs')">FAQs</a>
-            <div class="faq-circle" onclick="navigate('FAQs')">?</div>
-        </div>
-    </div>
 </body>
 </html>

@@ -146,20 +146,4 @@ public boolean updateProfile(String username, String fullName, String email, Str
         }
     }
 
-    private static String toHexString(byte[] bytes) {
-        StringBuilder hexString = new StringBuilder();
-        for (byte b : bytes) {
-            String hex = Integer.toHexString(0xff & b);
-            if (hex.length() == 1) hexString.append('0');
-            hexString.append(hex);
-        }
-        return hexString.toString();
-    }
-
-    private static byte[] getMD5(String input) throws Exception {
-        java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
-        return md.digest(input.getBytes("UTF-8"));
-    }
-
-
 }

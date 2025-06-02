@@ -348,7 +348,11 @@
                     </select>
                 </div>
                 <div class="header-title">AgriRescue</div>
-                <a href="index.jsp" class="home-btn">Home Page</a>
+                 <%
+        String ctx = request.getContextPath();
+        String homeLink = (user != null) ? ctx + "/home" : ctx + "/index.jsp";
+                %>
+                <a href="<%= homeLink %>" class="home-btn">Home Page</a>
             </div>
             <div class="header-actions">
                 <%
