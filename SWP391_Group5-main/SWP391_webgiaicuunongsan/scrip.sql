@@ -446,7 +446,7 @@ SELECT * FROM join_requests;
 
 UPDATE campaigns
 SET admin_status = 'accepted'
-WHERE campaign_id = 5;
+WHERE campaign_id = 9;
 
 UPDATE campaigns
 SET admin_status = 'rejected'
@@ -459,12 +459,19 @@ FROM INFORMATION_SCHEMA.COLUMNS
 WHERE TABLE_NAME = 'campaigns'
 
 UPDATE campaigns
-SET image_url = '/assets/images/bo-daklak.jpg'
-WHERE campaign_id = 3;
+SET image_url = '/assets/images/khoai-lang-nhat.jpg'
+WHERE campaign_id = 11;
 
 UPDATE campaigns
-SET image_url = '/assets/images/mit-mientay.jpg'
-WHERE campaign_id = 5;
+SET image_url = '/assets/images/khoai-lang-nhatv2.jpg'
+WHERE campaign_id = 12;
+
+
+
+
+
+
+
 
 
 

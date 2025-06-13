@@ -388,10 +388,28 @@
                 const phone = document.getElementById('phone').value.trim();
                 const reason = document.getElementById('reason').value.trim();
 
-                if (!fullName || !email || !phone || !reason) {
-                    alert("Please fill in all required fields.");
-                    return;
-                }
+//                if (!fullName || !email || !phone || !reason) {
+//                    alert("Please fill in all required fields.");
+//                    return;
+//                }
+
+
+if (!fullName) {
+     alert("❌ Vui lòng nhập Họ và tên.");
+    return;
+}
+if (!email) {
+     alert("❌ Vui lòng nhập Email.");
+    return;
+}if (!phone) {
+     alert("❌ Vui lòng nhập Số điện thoại.");
+    return;
+}if (!reason) {
+     alert("❌ Vui lòng nhập lý do bạn muốn tham gia chiến dịch");
+    return;
+}
+
+                
 
                 fetch('<%= request.getContextPath() %>/JoinRequestServlet', {
                     method: 'POST',
