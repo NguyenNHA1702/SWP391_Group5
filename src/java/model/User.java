@@ -4,10 +4,10 @@ import java.util.Date;
 
 public class User {
 
-    private int id;
+    private int userId; // đổi từ "id" cho đúng với DB
     private String fullName;
     private String email;
-    private String password; // plain or hash
+    private String password;
     private String phone;
     private String username;
     private String address;
@@ -28,29 +28,22 @@ public class User {
         this.password = password;
         this.address = address;
         this.role = role;
-        this.isApproved = false; // default
+        this.isApproved = false;
     }
 
     // Constructor với 8 tham số (bao gồm documentPath)
     public User(String fullName, String email, String phone, String username, String password, String address, String role, String documentPath) {
-        this.fullName = fullName;
-        this.email = email;
-        this.phone = phone;
-        this.username = username;
-        this.password = password;
-        this.address = address;
-        this.role = role;
+        this(fullName, email, phone, username, password, address, role);
         this.documentPath = documentPath;
-        this.isApproved = false; // default
     }
 
     // Getters & Setters
-    public int getId() {
-        return id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getFullName() {

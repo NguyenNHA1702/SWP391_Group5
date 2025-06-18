@@ -165,4 +165,69 @@ public class ProductDAO {
         return list;
     }
 
+    public static List<Product> getProductsByUser(int userId) {
+        List<Product> list = new ArrayList<>();
+        String sql = "SELECT * FROM products WHERE user_id = ?";
+
+        try (Connection conn = DBUtil.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Product p = new Product();
+                p.setProductId(rs.getInt("product_id"));
+                p.setUserId(rs.getInt("user_id"));
+                p.setName(rs.getString("name"));
+                p.setDescription(rs.getString("description"));
+                p.setPrice(rs.getDouble("price"));
+                p.setQuantity(rs.getInt("quantity"));
+                p.setLanguage(rs.getString("language"));
+                p.setCreatedAt(rs.getTimestamp("created_at"));
+                p.setCampaignId(rs.getInt("campaign_id")); // nếu bạn có thêm field này
+                list.add(p);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public List<Product> getProductsByCampaign(int campaignId) {
+        List<Product> list = new ArrayList<>();
+        String sql = """
+    SELECT ROW_NUMBER() OVER (ORDER BY product_id) AS stt, * 
+    FROM products 
+    WHERE campaign_id = ?
+""";
+
+        try (Connection conn = DBUtil.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, campaignId);  // chỉ cần set campaignId
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Product p = new Product();
+                p.setProductId(rs.getInt("product_id"));
+                p.setUserId(rs.getInt("user_id"));
+                p.setName(rs.getString("name"));
+                p.setDescription(rs.getString("description"));
+                p.setPrice(rs.getDouble("price"));
+                p.setQuantity(rs.getInt("quantity"));
+                p.setLanguage(rs.getString("language"));
+                p.setCreatedAt(rs.getTimestamp("created_at"));
+                p.setCampaignId(rs.getInt("campaign_id"));
+                p.setStt(rs.getInt("stt"));
+                list.add(p);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
 }

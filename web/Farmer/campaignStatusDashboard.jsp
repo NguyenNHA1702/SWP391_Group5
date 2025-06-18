@@ -141,7 +141,7 @@
             background: #e8f5e9; /* Xanh lá nhạt khi hover */
             transform: scale(1.01);
         }
-        .status-pending, .status-approved, .status-rejected {
+        .status-pending, .status-accepted, .status-rejected {
             display: inline-flex;
             align-items: center;
             padding: 6px 12px;
@@ -150,7 +150,7 @@
             font-weight: 500;
             transition: transform 0.2s;
         }
-        .status-pending:hover, .status-approved:hover, .status-rejected:hover {
+        .status-pending:hover, .status-accepted:hover, .status-rejected:hover {
             transform: scale(1.05);
         }
         .status-pending {
@@ -161,11 +161,11 @@
             color: #f39c12;
             margin-right: 5px;
         }
-        .status-approved {
+        .status-accepted {
             background: #e0f5ec;
             color: #2ecc71;
         }
-        .status-approved i {
+        .status-accepted i {
             color: #2ecc71;
             margin-right: 5px;
         }
@@ -198,7 +198,7 @@
                 <select id="statusFilter" onchange="filterTable()">
                     <option value="">Tất cả trạng thái</option>
                     <option value="pending">Pending</option>
-                    <option value="approved">Approved</option>
+                    <option value="accepted">Accepted</option>
                     <option value="rejected">Rejected</option>
                 </select>
             </div>
@@ -236,7 +236,7 @@
                         <span class="<%= statusClass %>">
                             <% if (adminStatus.equals("pending")) { %>
                                 <i class="fas fa-hourglass-half"></i>
-                            <% } else if (adminStatus.equals("approved")) { %>
+                            <% } else if (adminStatus.equals("accepted")) { %>
                                 <i class="fas fa-check-circle"></i>
                             <% } else if (adminStatus.equals("rejected")) { %>
                                 <i class="fas fa-times-circle"></i>
