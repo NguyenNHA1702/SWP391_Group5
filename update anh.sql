@@ -48,6 +48,17 @@ INSERT INTO campaigns (campaign_id, user_id, title, description, goal_amount, cu
 SET IDENTITY_INSERT campaigns OFF;
 GO
 
+UPDATE products SET campaign_id = 1 WHERE product_id IN (1, 2);
+UPDATE products SET campaign_id = 2 WHERE product_id IN (3);
+UPDATE products SET campaign_id = 3 WHERE product_id IN (4, 5);
+UPDATE products SET campaign_id = 4 WHERE product_id IN (6);
+UPDATE products SET campaign_id = 5 WHERE product_id IN (7, 8);
+UPDATE products SET campaign_id = 6 WHERE product_id IN (9);
+UPDATE products SET campaign_id = 7 WHERE product_id IN (10, 11);
+UPDATE products SET campaign_id = 8 WHERE product_id IN (12);
+UPDATE products SET campaign_id = 9 WHERE product_id IN (13);
+
+
 
 UPDATE campaigns
 SET admin_status = 'accepted'
