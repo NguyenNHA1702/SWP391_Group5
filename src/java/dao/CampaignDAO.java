@@ -189,7 +189,6 @@ public class CampaignDAO {
                 c.setCreatedAt(createdTimestamp != null ? new Date(createdTimestamp.getTime()) : null);
                 c.setImageUrl(rs.getString("image_url")); // Thêm dòng này
 
-
                 list.add(c);
             }
 
@@ -199,6 +198,50 @@ public class CampaignDAO {
 
         return list;
     }
+
+    public List<Campaign> getApprovedActiveCampaignsByFarmer(String username) {
+        List<Campaign> list = new ArrayList<>();
+        String sql = "SELECT * FROM campaigns "
+                + "WHERE status = 'active' AND admin_status = 'accepted' "
+                + "AND GETDATE() BETWEEN start_date AND end_date "
+                + "AND created_by = ?";
+
+        try (Connection conn = DBUtil.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Campaign c = new Campaign();
+
+                c.setCampaignId(rs.getInt("campaign_id"));
+                c.setUserId(rs.getInt("user_id"));
+                c.setTitle(rs.getString("title"));
+                c.setDescription(rs.getString("description"));
+                c.setGoalAmount(rs.getDouble("goal_amount"));
+                c.setCurrentAmount(rs.getDouble("current_amount"));
+
+                Timestamp startTimestamp = rs.getTimestamp("start_date");
+                c.setStartDate(startTimestamp != null ? new Date(startTimestamp.getTime()) : null);
+
+                Timestamp endTimestamp = rs.getTimestamp("end_date");
+                c.setEndDate(endTimestamp != null ? new Date(endTimestamp.getTime()) : null);
+
+                c.setLanguage(rs.getString("language"));
+                c.setStatus(rs.getString("status"));
+                c.setAdminStatus(rs.getString("admin_status"));
+
+                Timestamp createdTimestamp = rs.getTimestamp("created_at");
+                c.setCreatedAt(createdTimestamp != null ? new Date(createdTimestamp.getTime()) : null);
+                c.setImageUrl(rs.getString("image_url")); // Thêm dòng này
+                list.add(c);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+    
+    
 
     public static List<Campaign> searchAndSortCampaigns(String title, String sort) {
         List<Campaign> campaigns = new ArrayList<>();

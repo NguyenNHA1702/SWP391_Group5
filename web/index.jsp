@@ -240,6 +240,13 @@
                             </div>
                             <p class="text-sm text-gray-500 mt-1"><%= String.format("%.0f%%", progress) %> of goal</p>
                         </div>
+                        <% if ("farmer".equals(role)) { %>
+                        <a href="<%= request.getContextPath() %>/farmer/inventory?campaignId=<%= campaign.getCampaignId() %>"
+                           class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition w-full text-center block">
+                            📦 Access Inventory
+                        </a>
+
+                        <% } else { %>
                         <button class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition w-full join-campaign-btn"
                                 data-campaign-id="<%= campaign.getCampaignId() %>"
                                 data-campaign-title="<%= campaign.getTitle() %>"
@@ -251,6 +258,8 @@
                                 <% } %>>
                             Join Now
                         </button>
+                        <% } %>
+
                     </div>
                     <%
                             }
@@ -331,7 +340,8 @@
                 if (isBuyer) {
                     contributionInput.innerHTML = `
                   <div class="flex flex-col gap-4">
-                      <button onclick="selectJoinType('money')" class="bg-green-500 text-white px-4 py-2 rounded">💰 Contribute Money</button>
+                      <button onclick="viewCampaignProducts()" class="bg-green-500 text-white px-4 py-2 rounded">📦 View Products</button>
+
                       <button onclick="selectJoinType('volunteer')" class="bg-blue-500 text-white px-4 py-2 rounded">🤝 Volunteer to Join</button>
                       <div id="joinForm" class="mt-4"></div>
                   </div>
@@ -349,6 +359,16 @@
 
                 modal.style.display = 'flex';
             }
+
+            function viewCampaignProducts() {
+                if (currentCampaignId) {
+                    window.location.href = '<%= request.getContextPath() %>/farmer/inventory?campaignId=' + currentCampaignId;
+
+                } else {
+                    alert("❌ Campaign ID is missing.");
+                }
+            }
+
 
             function selectJoinType(type) {
                 const formDiv = document.getElementById('joinForm');

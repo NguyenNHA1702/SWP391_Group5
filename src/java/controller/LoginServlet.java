@@ -6,9 +6,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.User;
 
 import java.io.IOException;
-import model.User;
 
 public class LoginServlet extends HttpServlet {
 
@@ -32,13 +32,14 @@ public class LoginServlet extends HttpServlet {
         if (user != null) {
             HttpSession session = request.getSession();
 
-            // ✅ Ghi đúng username để dùng cho JoinRequestDAO
-            session.setAttribute("user", user.getUsername());          // dùng để JOIN
-            session.setAttribute("displayName", user.getFullName());   // dùng để hiển thị
+            session.setAttribute("user", user.getUsername());
+            session.setAttribute("displayName", user.getFullName());
             session.setAttribute("role", user.getRole());
-            session.setAttribute("userId", user.getId());
+            session.setAttribute("userId", user.getUserId());
+            session.setAttribute("account", user);
 
-            response.getWriter().print("success");
+            // ✅ Trả về dạng "success:buyer" hoặc "success:admin"
+            response.getWriter().print("success:" + user.getRole().toLowerCase());
         } else {
             response.getWriter().print("incorrect");
         }

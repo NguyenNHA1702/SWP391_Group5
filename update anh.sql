@@ -1,9 +1,9 @@
 ﻿-- Thêm dữ liệu mẫu vào bảng users
 SET IDENTITY_INSERT users ON;
 INSERT INTO users (user_id, username, password, name, email, phone, role) VALUES
-(1, N'nguyenvana', HASHBYTES('MD5', 'password123'), N'Nguyen Van A', N'a@example.com', N'+84987654321', N'farmer'),
-(2, N'tranthib', HASHBYTES('MD5', 'password456'), N'Tran Thi B', N'b@example.com', N'+84912345678', N'buyer'),
-(3, N'admin1', HASHBYTES('MD5', 'admin123'), N'Admin User', N'admin@example.com', N'+84911122333', N'admin');
+(1, N'nguyenvana', '123', N'Nguyen Van A', N'a@example.com', N'+84987654321', N'farmer'),
+(2, N'tranthib','123', N'Tran Thi B', N'b@example.com', N'+84912345678', N'buyer'),
+(3, N'admin1', 'admin123', N'Admin User', N'admin@example.com', N'+84911122333', N'admin');
 SET IDENTITY_INSERT users OFF;
 GO
 

@@ -173,14 +173,23 @@
 
                 fetch('/SWP391_webgiaicuunongsan/login', {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    },
                     body: 'email=' + encodeURIComponent(email) + '&password=' + encodeURIComponent(password)
                 })
                         .then(response => response.text())
                         .then(result => {
                             loginBtn.textContent = originalText;
-                            if (result.includes("success")) {
-                                window.location.href = 'home';
+
+                            if (result.startsWith("success:")) {
+                                const role = result.split(":")[1].toLowerCase();
+                                if (role === "admin") {
+                                    window.location.href = window.location.origin + '/SWP391_webgiaicuunongsan/Admin/adminDashboard.jsp';
+
+                                } else {
+                                    window.location.href = 'home';
+                                }
                             } else if (result.includes("not found")) {
                                 alert('Email không tồn tại.');
                             } else if (result.includes("incorrect")) {
@@ -194,6 +203,7 @@
                             alert('Lỗi: ' + error);
                         });
             }
+
         </script>
     </body>
 </html>

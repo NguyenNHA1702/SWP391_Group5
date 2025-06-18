@@ -33,6 +33,15 @@
         <servlet-name>ContactServlet</servlet-name>
         <servlet-class>controller.ContactServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MyInventoryServlet</servlet-name>
+        <servlet-class>controller.famer.MyInventoryServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MyInventoryServlet</servlet-name>
+        <url-pattern>/farmer/inventory</url-pattern>
+    </servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -250,4 +259,5 @@
         <servlet-name>ContactServlet</servlet-name>
         <url-pattern>/ContactServlet</url-pattern>
     </servlet-mapping>
+    
 </web-app>
