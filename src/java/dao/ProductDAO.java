@@ -246,15 +246,28 @@ public class ProductDAO {
         }
         return false;
     }
-    
-    public static void deleteProduct(int productId) throws Exception {
-    String sql = "DELETE FROM products WHERE product_id = ?";
-    try (Connection conn = DBUtil.getConnection();
-         PreparedStatement ps = conn.prepareStatement(sql)) {
-        ps.setInt(1, productId);
-        ps.executeUpdate();
-    }
-}
 
+    public static void deleteProduct(int productId) throws Exception {
+        String sql = "DELETE FROM products WHERE product_id = ?";
+        try (Connection conn = DBUtil.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, productId);
+            ps.executeUpdate();
+        }
+    }
+
+    public static void updateProduct(Product p) {
+        String sql = "UPDATE products SET name=?, description=?, price=?, quantity=?, language=? WHERE product_id=?";
+        try (Connection conn = DBUtil.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, p.getName());
+            ps.setString(2, p.getDescription());
+            ps.setDouble(3, p.getPrice());
+            ps.setInt(4, p.getQuantity());
+            ps.setString(5, p.getLanguage());
+            ps.setInt(6, p.getProductId());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

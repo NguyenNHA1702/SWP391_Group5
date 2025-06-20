@@ -15,7 +15,7 @@ public class Homepage extends HttpServlet {
             throws ServletException, IOException {
 
         CampaignDAO dao = new CampaignDAO();
-        List<Campaign> campaigns = dao.getApprovedActiveCampaigns();
+        List<Campaign> campaigns = dao.getActiveCampaignsWithCreator();
         request.setAttribute("campaigns", campaigns);
 
           HttpSession session = request.getSession(false);

@@ -186,6 +186,7 @@
 
             <!-- Rescue Campaigns Section -->
             <section class="campaigns-section mb-8">
+
                 <h2 class="text-3xl font-bold text-green-700 mb-6 text-center">Rescue Campaigns</h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     <%
@@ -221,6 +222,10 @@
 
 
                         <h3 class="text-xl font-semibold text-green-700 mb-2"><%= campaign.getTitle() %></h3>
+                        <p class="text-sm text-purple-700 italic mb-1">
+                            👤 Created by: <%= campaign.getCreatorName() != null ? campaign.getCreatorName() : "Unknown" %>
+                        </p>
+
                         <p class="text-gray-600 mb-2"><%= shortDesc %></p>
                         <p class="text-sm text-red-600 font-semibold countdown" data-end-time="<%= end.getTime() %>">
                             ⏳ calculating...

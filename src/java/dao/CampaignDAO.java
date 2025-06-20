@@ -40,6 +40,46 @@ public class CampaignDAO {
         return list;
     }
 
+    public List<Campaign> getActiveCampaignsWithCreator() {
+        List<Campaign> list = new ArrayList<>();
+        String sql = """
+        SELECT c.*, u.name AS creator_name
+        FROM campaigns c
+        JOIN users u ON c.user_id = u.user_id
+        WHERE c.status = 'active' AND c.admin_status = 'accepted'
+              AND GETDATE() BETWEEN c.start_date AND c.end_date
+    """;
+
+        try (Connection conn = DBUtil.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Campaign c = new Campaign();
+                c.setCampaignId(rs.getInt("campaign_id"));
+                c.setTitle(rs.getString("title"));
+                c.setDescription(rs.getString("description"));
+                c.setGoalAmount(rs.getBigDecimal("goal_amount").doubleValue());
+
+                c.setCurrentAmount(rs.getBigDecimal("current_amount").doubleValue());
+
+                c.setStartDate(rs.getDate("start_date"));
+                c.setEndDate(rs.getDate("end_date"));
+                c.setLanguage(rs.getString("language"));
+                c.setStatus(rs.getString("status"));
+                c.setCreatedAt(rs.getTimestamp("created_at"));
+                c.setAdminStatus(rs.getString("admin_status"));
+                c.setImageUrl(rs.getString("image_url"));
+
+                c.setCreatorName(rs.getString("creator_name"));
+
+                list.add(c);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
     public List<Campaign> getCampaignsByUserId(int userId) {
         List<Campaign> campaigns = new ArrayList<>();
         String sql = "SELECT * FROM campaigns WHERE user_id = ?";
@@ -240,8 +280,6 @@ public class CampaignDAO {
 
         return list;
     }
-    
-    
 
     public static List<Campaign> searchAndSortCampaigns(String title, String sort) {
         List<Campaign> campaigns = new ArrayList<>();
@@ -328,5 +366,4 @@ public class CampaignDAO {
             return false;
         }
     }
-
 }
