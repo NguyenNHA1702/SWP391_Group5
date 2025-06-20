@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class EditProductServlet extends HttpServlet {
 
-    // GET: Hiển thị form sửa sản phẩm
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
