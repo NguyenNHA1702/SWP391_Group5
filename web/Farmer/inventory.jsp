@@ -102,7 +102,7 @@
                                             <c:choose>
                                                 <c:when test="${sessionScope.role == 'farmer'}">
                                                     <div class="flex space-x-3">
-                                                        <a href="editProduct.jsp?id=${p.productId}" class="action-btn bg-amber-400 text-gray-900 px-4 py-2 rounded-lg font-medium hover:bg-amber-500">
+                                                        <a href="${pageContext.request.contextPath}/edit?id=${p.productId}" class="action-btn bg-amber-400 text-gray-900 px-4 py-2 rounded-lg font-medium hover:bg-amber-500">
                                                             ✏️ Edit
                                                         </a>
                                                         <form action="${pageContext.request.contextPath}/delete" method="post" onsubmit="return confirm('Are you sure you want to delete this product?');">
