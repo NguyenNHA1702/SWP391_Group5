@@ -222,12 +222,39 @@ public class ProductDAO {
                 p.setStt(rs.getInt("stt"));
                 list.add(p);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         return list;
     }
+
+    public static boolean insertProduct(Product p) {
+        String sql = "INSERT INTO products (user_id, campaign_id, name, description, price, quantity, language, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = DBUtil.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, p.getUserId());
+            stmt.setInt(2, p.getCampaignId());
+            stmt.setString(3, p.getName());
+            stmt.setString(4, p.getDescription());
+            stmt.setDouble(5, p.getPrice());
+            stmt.setInt(6, p.getQuantity());
+            stmt.setString(7, p.getLanguage());
+            stmt.setTimestamp(8, new Timestamp(System.currentTimeMillis()));
+            return stmt.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public static void deleteProduct(int productId) throws Exception {
+    String sql = "DELETE FROM products WHERE product_id = ?";
+    try (Connection conn = DBUtil.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setInt(1, productId);
+        ps.executeUpdate();
+    }
+}
+
 
 }
