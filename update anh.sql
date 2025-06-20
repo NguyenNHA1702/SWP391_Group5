@@ -31,24 +31,30 @@ GO
 
 
 -- Thêm dữ liệu mẫu vào bảng campaigns
+
+
 SET IDENTITY_INSERT campaigns ON;
 INSERT INTO campaigns (campaign_id, user_id, title, description, goal_amount, current_amount, start_date, end_date, language, status, created_at, admin_status) VALUES
 (1, 1, N'Hỗ trợ nông dân Đồng Tháp', N'Giúp đỡ nông dân bị ảnh hưởng lũ lụt', 50000000.00, 20000.00, '2025-05-01', '2025-06-01', N'vi', N'news', '2025-05-24T19:50:21.023', N'pending'),
 (2, 1, N'Support Dong Thap Farmers', N'Help farmers affected by floods', 50000000.00, 0.00, '2025-05-01', '2025-06-01', N'en', N'news', '2025-05-24T19:50:21.023', N'pending'),
-(3, 1, N'Hỗ trợ tiêu thụ bơ Đắk Lắk', N'Giúp nông dân bán bơ sáp', 30000000, 0, '2025-06-01', '2025-06-20', N'vi', N'news', GETDATE(), N'pending'),
-(4, 1, N'Support Dak Lak Avocados', N'Help farmers sell avocado surplus', 30000000, 0, '2025-06-01', '2025-06-20', N'en', N'news', GETDATE(), N'pending'),
-(5, 1, N'Giải cứu mít thái miền Tây', N'Hỗ trợ bán mít thái chín cây', 35000000, 0, '2025-06-02', '2025-06-22', N'vi', N'news', GETDATE(), N'pending'),
-(6, 1, N'Rescue Thai Jackfruit', N'Support Thai jackfruit farmers', 35000000, 0, '2025-06-02', '2025-06-22', N'en', N'news', GETDATE(), N'pending'),
-(7, 1, N'Giải cứu dưa hấu Long An', N'Dưa hấu đang tồn kho, cần giải cứu', 40000000, 0, '2025-06-03', '2025-06-25', N'vi', N'news', GETDATE(), N'pending'),
-(8, 1, N'Save Long An Watermelons', N'Watermelon rescue campaign', 40000000, 0, '2025-06-03', '2025-06-25', N'en', N'news', GETDATE(), N'pending'),
-(9, 1, N'Ủng hộ nông dân trồng chuối', N'Tiêu thụ chuối xiêm số lượng lớn', 20000000, 0, '2025-06-04', '2025-06-18', N'vi', N'news', GETDATE(), N'pending'),
-(10, 1, N'Support Banana Growers', N'Rescue banana stocks from Mekong', 20000000, 0, '2025-06-04', '2025-06-18', N'en', N'news', GETDATE(), N'pending'),
-(11, 1, N'Tiêu thụ khoai lang Nhật', N'Giải cứu khoai lang Nhật từ Vĩnh Long', 25000000, 0, '2025-06-05', '2025-06-20', N'vi', N'news', GETDATE(), N'pending'),
-(12, 1, N'Sell Japanese Sweet Potatoes', N'Promote sweet potatoes from Vinh Long', 25000000, 0, '2025-06-05', '2025-06-20', N'en', N'news', GETDATE(), N'pending');
+(3, 1, N'Hỗ trợ tiêu thụ bơ Đắk Lắk', N'Giúp nông dân bán bơ sáp', 30000000, 0, '2025-06-01', '2025-07-20', N'vi', N'news', GETDATE(), N'pending'),
+(4, 1, N'Support Dak Lak Avocados', N'Help farmers sell avocado surplus', 30000000, 0, '2025-06-01', '2025-07-20', N'en', N'news', GETDATE(), N'pending'),
+(5, 1, N'Giải cứu mít thái miền Tây', N'Hỗ trợ bán mít thái chín cây', 35000000, 0, '2025-06-02', '2025-07-22', N'vi', N'news', GETDATE(), N'pending'),
+(6, 1, N'Rescue Thai Jackfruit', N'Support Thai jackfruit farmers', 35000000, 0, '2025-06-02', '2025-07-22', N'en', N'news', GETDATE(), N'pending'),
+(7, 1, N'Giải cứu dưa hấu Long An', N'Dưa hấu đang tồn kho, cần giải cứu', 40000000, 0, '2025-06-03', '2025-07-25', N'vi', N'news', GETDATE(), N'pending'),
+(8, 1, N'Save Long An Watermelons', N'Watermelon rescue campaign', 40000000, 0, '2025-06-03', '2025-07-25', N'en', N'news', GETDATE(), N'pending'),
+(9, 1, N'Ủng hộ nông dân trồng chuối', N'Tiêu thụ chuối xiêm số lượng lớn', 20000000, 0, '2025-06-04', '2025-07-18', N'vi', N'news', GETDATE(), N'pending'),
+(10, 1, N'Support Banana Growers', N'Rescue banana stocks from Mekong', 20000000, 0, '2025-06-04', '2025-07-18', N'en', N'news', GETDATE(), N'pending'),
+(11, 1, N'Tiêu thụ khoai lang Nhật', N'Giải cứu khoai lang Nhật từ Vĩnh Long', 25000000, 0, '2025-06-05', '2025-07-20', N'vi', N'news', GETDATE(), N'pending'),
+(12, 1, N'Sell Japanese Sweet Potatoes', N'Promote sweet potatoes from Vinh Long', 25000000, 0, '2025-06-05', '2025-07-20', N'en', N'news', GETDATE(), N'pending');
 SET IDENTITY_INSERT campaigns OFF;
 GO
 
-UPDATE products SET campaign_id = 1 WHERE product_id IN (1, 2);
+UPDATE products SET campaign_id = 3 WHERE product_id = 2;
+UPDATE products SET campaign_id = 3 WHERE product_id = 3;
+UPDATE products SET campaign_id = 3 WHERE product_id = 4;
+UPDATE products SET campaign_id = 3 WHERE product_id = 5;
+UPDATE products SET campaign_id = 3 WHERE product_id = 6;
 UPDATE products SET campaign_id = 2 WHERE product_id IN (3);
 UPDATE products SET campaign_id = 3 WHERE product_id IN (4, 5);
 UPDATE products SET campaign_id = 4 WHERE product_id IN (6);
