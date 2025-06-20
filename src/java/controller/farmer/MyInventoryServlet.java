@@ -1,4 +1,4 @@
-package controller.famer;
+package controller.farmer;
 
 import dao.CampaignDAO;
 import dao.ProductDAO;

@@ -67,9 +67,8 @@
 
                 <c:if test="${sessionScope.role == 'farmer'}">
                     <div class="mb-8">
-                        <a href="createProduct.jsp" class="gradient-btn text-white px-6 py-3 rounded-xl font-semibold shadow-lg action-btn">
-                            🌱 Add New Product
-                        </a>
+                        <a href="${pageContext.request.contextPath}/Farmer/createProduct.jsp?campaignId=${param.campaignId}">➕ Add New Product</a>
+
                     </div>
                 </c:if>
 
@@ -106,12 +105,14 @@
                                                         <a href="editProduct.jsp?id=${p.productId}" class="action-btn bg-amber-400 text-gray-900 px-4 py-2 rounded-lg font-medium hover:bg-amber-500">
                                                             ✏️ Edit
                                                         </a>
-                                                        <form action="DeleteProductServlet" method="post" onsubmit="return confirm('Are you sure you want to delete this product?');">
+                                                        <form action="${pageContext.request.contextPath}/delete" method="post" onsubmit="return confirm('Are you sure you want to delete this product?');">
                                                             <input type="hidden" name="productId" value="${p.productId}" />
+                                                            <input type="hidden" name="campaignId" value="${param.campaignId}" />
                                                             <button type="submit" class="action-btn bg-red-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-red-700">
                                                                 🗑️ Delete
                                                             </button>
                                                         </form>
+
                                                     </div>
                                                 </c:when>
                                                 <c:when test="${sessionScope.role == 'buyer'}">
