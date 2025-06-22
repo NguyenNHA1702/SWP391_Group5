@@ -116,13 +116,17 @@
                                                     </div>
                                                 </c:when>
                                                 <c:when test="${sessionScope.role == 'buyer'}">
-                                                    <form action="OrderServlet" method="post">
+                                                    <form action="${pageContext.request.contextPath}/add-to-cart" method="post">
                                                         <input type="hidden" name="productId" value="${p.productId}" />
+                                                        <input type="hidden" name="productName" value="${p.name}" />
+                                                        <input type="hidden" name="price" value="${p.price}" />
+                                                        <input type="hidden" name="quantity" value="1" />
                                                         <button type="submit" class="action-btn gradient-btn text-white px-4 py-2 rounded-lg font-medium">
                                                             🛒 Buy Now
                                                         </button>
                                                     </form>
                                                 </c:when>
+
                                                 <c:otherwise>
                                                     <span class="text-gray-500">N/A</span>
                                                 </c:otherwise>

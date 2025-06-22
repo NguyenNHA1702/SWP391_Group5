@@ -102,21 +102,24 @@
 
             </div>
             <div class="flex items-center space-x-3">
-                <%
-                    if (user == null) {
-                %>
-                <a href="login.jsp" class="login bg-yellow-400 text-green-900 px-4 py-2 rounded-lg hover:bg-yellow-500 transition">Login</a>
-                <a href="signup.jsp" class="signup bg-green-700 text-white px-4 py-2 rounded-lg hover:bg-green-800 transition">Sign Up</a>
-                <%
-                    } else {
-                %>
-                <span class="text-white font-medium">Welcome, <%= user %>!</span>
-                <a href="userprofile.jsp" class="profile bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">Profile</a>
-                <a href="LogoutServlet" class="logout bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition">Logout</a>
-                <%
-                    }
-                %>
-            </div>
+    <%
+        if (user == null) {
+    %>
+        <a href="login.jsp" class="login bg-yellow-400 text-green-900 px-4 py-2 rounded-lg hover:bg-yellow-500 transition">Login</a>
+        <a href="signup.jsp" class="signup bg-green-700 text-white px-4 py-2 rounded-lg hover:bg-green-800 transition">Sign Up</a>
+    <%
+        } else {
+    %>
+        <span class="text-white font-medium">Welcome, <%= user %>!</span>
+        <a href="userprofile.jsp" class="profile bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">Profile</a>
+        <a href="LogoutServlet" class="logout bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition">Logout</a>
+    <%
+        } 
+    %>
+
+    <%@ include file="/components/cartButton.jsp" %>
+</div>
+
         </header>
 
         <c:if test="${sessionScope.role == 'farmer' || sessionScope.role == 'admin'}">
@@ -237,14 +240,11 @@
                                    "bg-green-600" %>">
                             <%= status %>
                         </span>
-                        <div class="mb-4">
-                            <p class="text-sm text-gray-500">Support Goal: <%= currencyFormat.format(campaign.getGoalAmount()) %></p>
-                            <p class="text-sm text-gray-500">Raised: <%= currencyFormat.format(campaign.getCurrentAmount()) %></p>
-                            <div class="w-full bg-gray-200 rounded-full h-2.5 mt-2">
-                                <div class="progress-bar h-2.5 rounded-full" style="width: <%= progress %>%"></div>
-                            </div>
-                            <p class="text-sm text-gray-500 mt-1"><%= String.format("%.0f%%", progress) %> of goal</p>
-                        </div>
+                       
+                        
+                        
+                        
+                        <!--Inventory-->
                         <% if ("farmer".equals(role)) { %>
                         <a href="<%= request.getContextPath() %>/farmer/inventory?campaignId=<%= campaign.getCampaignId() %>"
                            class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition w-full text-center block">
@@ -264,7 +264,6 @@
                             Join Now
                         </button>
                         <% } %>
-
                     </div>
                     <%
                             }
@@ -287,34 +286,6 @@
                     <div id="modalActions"></div>
                 </div>
             </div>
-
-            <!-- Call to Action Banner -->
-            <section class="cta-banner mb-8">
-                <h2 class="text-3xl font-bold mb-4">Join Hands to Rescue Agricultural Products Today!</h2>
-                <%
-                    if (user == null) {
-                %>
-                <a href="signup.jsp" class="bg-green-700 text-white px-6 py-3 rounded-lg hover:bg-green-800 transition">Join Now</a>
-                <%
-                    } else {
-                %>
-                <a href="browse" class="bg-green-700 text-white px-6 py-3 rounded-lg hover:bg-green-800 transition">Browse Campaigns</a>
-                <%
-                    }
-                %>
-            </section>
-
-            <%
-                if (user == null) {
-            %>
-            <p class="text-center text-gray-600">Login or Sign Up to access more features like creating campaigns and managing your inventory.</p>
-            <%
-                } else {
-            %>
-            <p class="text-center text-gray-600">Explore more features like creating campaigns and managing your inventory.</p>
-            <%
-                }
-            %>
         </main>
 
         <footer class="footer fixed bottom-0 w-full py-4 px-6 flex justify-between items-center text-white">
@@ -341,7 +312,7 @@
 
                 modalTitle.textContent = isBuyer ? `Join Campaign: ${campaignTitle}` : 'Login Required';
                 modalDesc.textContent = isBuyer ? campaignDesc : 'Please login as a buyer to join the campaign.';
-
+// Ham xu li 
                 if (isBuyer) {
                     contributionInput.innerHTML = `
                   <div class="flex flex-col gap-4">
@@ -412,13 +383,7 @@
                 const email = document.getElementById('email').value.trim();
                 const phone = document.getElementById('phone').value.trim();
                 const reason = document.getElementById('reason').value.trim();
-
-//                if (!fullName || !email || !phone || !reason) {
-//                    alert("Please fill in all required fields.");
-//                    return;
-//                }
-
-
+                
                 if (!fullName) {
                     alert("❌ Vui lòng nhập Họ và tên.");
                     return;
@@ -465,7 +430,7 @@
                 document.getElementById('joinModal').style.display = 'none';
             }
 
-            // Hàm cập nhật thời gian còn lại
+
             function updateCountdowns() {
                 const now = new Date().getTime();
                 document.querySelectorAll('.countdown').forEach(el => {
@@ -480,11 +445,7 @@
                     }
                 });
             }
-
-// Chạy khi tải trang
             updateCountdowns();
-
-// Tự động cập nhật mỗi phút
             setInterval(updateCountdowns, 60000);
         </script>
     </body>

@@ -5,8 +5,12 @@
         <group>
             <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/src/java/dao/ProductDAO.java</file>
             <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/src/java/controller/farmer/EditProductServlet.java</file>
+            <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/src/java/controller/farmer/AddProductServlet.java</file>
+            <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/src/java/controller/farmer/MyInventoryServlet.java</file>
             <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/web/Farmer/editProduct.jsp</file>
             <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/src/java/model/Product.java</file>
+            <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/web/Farmer/createProduct.jsp</file>
+            <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/web/WEB-INF/web.xml</file>
         </group>
     </open-files>
 </project-private>
