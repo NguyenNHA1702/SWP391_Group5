@@ -7,6 +7,7 @@ package model;
 /**
  *
  * @author HP
+ *
  */
 public class CartItem {
 
@@ -32,10 +33,6 @@ public class CartItem {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-    }
-
-    public double getTotalPrice() {
-        return product.getPrice() * quantity;
     }
 
     public double getSubtotal() {

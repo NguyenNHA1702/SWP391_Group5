@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class AddToCartServlet extends HttpServlet {
 
     @Override
@@ -35,9 +34,9 @@ public class AddToCartServlet extends HttpServlet {
             int quantity = Integer.parseInt(request.getParameter("quantity"));
 
             Product product = ProductDAO.getProductById(productId);
-
-            if (product == null) {
-                response.sendRedirect("error.jsp"); // or show custom error page
+            if (product == null || product.getProductId() <= 0) {
+                System.out.println("❌ Không tìm thấy sản phẩm với ID: " + productId);
+                response.sendRedirect("error.jsp");
                 return;
             }
 
@@ -72,4 +71,3 @@ public class AddToCartServlet extends HttpServlet {
         }
     }
 }
-

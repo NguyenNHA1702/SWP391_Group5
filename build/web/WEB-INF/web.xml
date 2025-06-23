@@ -104,7 +104,7 @@
     </servlet>
     <servlet>
         <servlet-name>CheckoutServlet</servlet-name>
-        <servlet-class>controller.CheckoutServlet</servlet-class>
+        <servlet-class>controller.buyer.CheckoutServlet</servlet-class>
     </servlet>
 
     <!-- User & Account -->
