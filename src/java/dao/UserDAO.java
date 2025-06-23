@@ -4,6 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.User;
@@ -65,50 +69,49 @@ public class UserDAO {
         }
         return false;
     }
-    
+
     public static User checkLogin(String usernameOrEmail, String password) {
-    String sql = "SELECT * FROM users WHERE (username = ? OR email = ?) AND password = ?";
-    try (Connection conn = DBUtil.getConnection();
-         PreparedStatement ps = conn.prepareStatement(sql)) {
-        ps.setString(1, usernameOrEmail);
-        ps.setString(2, usernameOrEmail);
-        ps.setString(3, password);
+        String sql = "SELECT * FROM users WHERE (username = ? OR email = ?) AND password = ?";
+        try (Connection conn = DBUtil.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, usernameOrEmail);
+            ps.setString(2, usernameOrEmail);
+            ps.setString(3, password);
 
-        try (ResultSet rs = ps.executeQuery()) {
-            if (rs.next()) {
-                User user = new User();
-                user.setUserId(rs.getInt("user_id"));
-                user.setUsername(rs.getString("username"));
-                user.setPassword(rs.getString("password"));
-                user.setFullName(rs.getString("name"));
-                user.setEmail(rs.getString("email"));
-                user.setPhone(rs.getString("phone"));
-                user.setRole(rs.getString("role"));
-                user.setCreatedAt(rs.getTimestamp("created_at"));
-                return user;
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    User user = new User();
+                    user.setUserId(rs.getInt("user_id"));
+                    user.setUsername(rs.getString("username"));
+                    user.setPassword(rs.getString("password"));
+                    user.setFullName(rs.getString("name"));
+                    user.setEmail(rs.getString("email"));
+                    user.setPhone(rs.getString("phone"));
+                    user.setRole(rs.getString("role"));
+                    user.setCreatedAt(rs.getTimestamp("created_at"));
+                    return user;
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    } catch (Exception e) {
-        e.printStackTrace();
+        return null;
     }
-    return null;
-}
-    public int getUserIdByUsername(String username) {
-    String sql = "SELECT user_id FROM users WHERE username = ?";
-    try (Connection conn = DBUtil.getConnection();
-         PreparedStatement ps = conn.prepareStatement(sql)) {
-        ps.setString(1, username);
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            return rs.getInt("user_id");
-        }
-    } catch (Exception e) {
-        e.printStackTrace(); // Hoặc dùng Logger như các hàm khác
-    }
-    return -1; // Không tìm thấy hoặc có lỗi
-}
 
-public boolean updateProfile(String username, String fullName, String email, String phone, String address) {
+    public int getUserIdByUsername(String username) {
+        String sql = "SELECT user_id FROM users WHERE username = ?";
+        try (Connection conn = DBUtil.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("user_id");
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Hoặc dùng Logger như các hàm khác
+        }
+        return -1; // Không tìm thấy hoặc có lỗi
+    }
+
+    public boolean updateProfile(String username, String fullName, String email, String phone, String address) {
         String sql = "UPDATE users SET name = ?, email = ?, phone = ?, address = ? WHERE username = ?";
         try (Connection conn = DBUtil.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, fullName);
@@ -145,5 +148,108 @@ public boolean updateProfile(String username, String fullName, String email, Str
             return false;
         }
     }
+
+    public List<User> getAllUsersExcept(int currentUserId) throws SQLException, Exception {
+        List<User> users = new ArrayList<>();
+        String sql = "SELECT * FROM users WHERE user_id != ?";
+
+        try (Connection conn = DBUtil.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, currentUserId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                System.out.println(">>> Found user: " + rs.getString("username")); // Debug dòng in ra username
+                User u = new User(
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getString("phone"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        null, // 🔄 address không tồn tại
+                        rs.getString("role")
+                );
+                u.setUserId(rs.getInt("user_id")); // 🟢 FIX QUAN TRỌNG
+                users.add(u);
+            }
+        }
+        return users;
+    }
+
+    public List<User> searchUsersExcept(int currentUserId, String keyword) throws SQLException, Exception {
+        List<User> users = new ArrayList<>();
+        String sql = "SELECT * FROM users WHERE user_id != ? AND (username LIKE ? OR name LIKE ?)"; // 🔄 full_name → name
+
+        try (Connection conn = DBUtil.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, currentUserId);
+            ps.setString(2, "%" + keyword + "%");
+            ps.setString(3, "%" + keyword + "%");
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                System.out.println(">>> Found user (search): " + rs.getString("username")); // Debug
+                User u = new User(
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getString("phone"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        null, // 🔄 address không tồn tại
+                        rs.getString("role")
+                );
+                u.setUserId(rs.getInt("user_id"));  // ✅ thêm userId
+                users.add(u);
+            }
+        }
+        return users;
+    }
+
+    public User getUserById(int id) {
+    String query = "SELECT * FROM users WHERE user_id = ?"; // ✅ FIXED
+    try (Connection conn = DBUtil.getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
+        stmt.setInt(1, id);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            User user = new User(
+                rs.getString("name"),
+                rs.getString("email"),
+                rs.getString("phone"),
+                rs.getString("username"),
+                rs.getString("password"),
+                null, // 🔄 address không tồn tại
+                rs.getString("role")
+            );
+            user.setUserId(rs.getInt("user_id")); // ✅ bắt buộc
+            return user;
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return null;
+}
+
+    public User getUserByUsername(String username) throws SQLException, Exception {
+    String sql = "SELECT * FROM users WHERE username = ?";
+    try (Connection con = DBUtil.getConnection();
+         PreparedStatement ps = con.prepareStatement(sql)) {
+        ps.setString(1, username);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            User user = new User(
+                rs.getString("name"),
+                rs.getString("email"),
+                rs.getString("phone"),
+                rs.getString("username"),
+                rs.getString("password"),
+                null, // 🔄 address không tồn tại
+                rs.getString("role")
+            );
+            user.setUserId(rs.getInt("user_id")); // ✅ THÊM DÒNG NÀY
+            return user;
+        }
+    }
+    return null;
+}
 
 }
