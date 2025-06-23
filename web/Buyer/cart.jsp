@@ -75,6 +75,8 @@
 
                 <c:if test="${not empty cart}">
                     <form method="post">
+                        <input type="hidden" name="campaignId" value="${param.campaignId}">
+
                         <div class="overflow-x-auto">
                             <table class="w-full">
                                 <thead class="table-header">
@@ -129,7 +131,8 @@
                         <!-- Nút Update và Checkout -->
                         <div class="flex flex-col sm:flex-row justify-between items-center mt-6 space-y-4 sm:space-y-0 sm:space-x-4">
                             <button type="submit"
-                                    formaction="${pageContext.request.contextPath}/update-cart"
+                                    formaction="${pageContext.request.contextPath}/update-cart?campaignId=${param.campaignId}"
+
                                     class="gradient-btn text-white font-semibold px-6 py-3 rounded-xl shadow-lg action-btn w-full sm:w-auto">
                                 <i class="fas fa-sync-alt mr-2"></i> Update Quantities
                             </button>

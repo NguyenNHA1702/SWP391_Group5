@@ -9,12 +9,15 @@
             <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/src/java/controller/buyer/RemoveFromCartServlet.java</file>
             <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/src/java/model/User.java</file>
             <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/src/java/controller/buyer/UpdateCartServlet.java</file>
+            <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/src/java/controller/farmer/FilterInventoryServlet.java</file>
             <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/src/java/controller/farmer/DeleteProductServlet.java</file>
             <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/src/java/model/Order.java</file>
+            <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/src/java/dao/ShippingInfoDAO.java</file>
             <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/src/java/model/Campaign.java</file>
             <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/src/java/controller/farmer/MyInventoryServlet.java</file>
             <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/web/index.jsp</file>
             <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/src/java/dao/JoinRequestDAO.java</file>
+            <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/web/Farmer/inventory.jsp</file>
             <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/web/Buyer/order-success.jsp</file>
             <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/src/java/model/OrderItem.java</file>
             <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/src/java/model/CartItem.java</file>

@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller.buyer;
 
 import jakarta.servlet.*;
@@ -15,6 +14,7 @@ import java.util.List;
 
 @WebServlet("/update-cart")
 public class UpdateCartServlet extends HttpServlet {
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -31,13 +31,15 @@ public class UpdateCartServlet extends HttpServlet {
                             cart.get(i).setQuantity(quantity);
                         }
                     } catch (NumberFormatException ignored) {
-                        
+
                     }
                 }
             }
         }
 
-        response.sendRedirect(request.getContextPath() + "/Buyer/cart.jsp");
+        String campaignId = request.getParameter("campaignId");
+        response.sendRedirect(request.getContextPath() + "/Buyer/cart.jsp?campaignId=" + campaignId);
+
+
     }
 }
-

@@ -12,7 +12,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.ResultSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class OrderDAO {
 
@@ -111,5 +113,27 @@ public class OrderDAO {
             }
         }
     }
-
+    
+     public static Map<Integer,Integer> getSoldQuantityMap() throws Exception {
+        String sql =
+            "SELECT product_id, SUM(quantity) AS soldQty " +
+            "FROM order_items " +
+            "GROUP BY product_id";
+        Map<Integer,Integer> soldMap = new HashMap<>();
+        try (
+            Connection conn = DBUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()
+        ) {
+            while (rs.next()) {
+                soldMap.put(
+                  rs.getInt("product_id"),
+                  rs.getInt("soldQty")
+                );
+            }
+        }
+        return soldMap;
+    }
 }
+
+
