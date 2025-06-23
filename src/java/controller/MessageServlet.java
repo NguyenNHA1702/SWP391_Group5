@@ -10,6 +10,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Message;
 
 @WebServlet("/MessageServlet")
@@ -52,6 +54,8 @@ public class MessageServlet extends HttpServlet {
             JsonObject errorJson = new JsonObject();
             errorJson.addProperty("error", "Database error: " + e.getMessage());
             response.getWriter().write(gson.toJson(errorJson));
+        } catch (Exception ex) {
+            Logger.getLogger(MessageServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -77,6 +81,8 @@ public class MessageServlet extends HttpServlet {
             } catch (SQLException e) {
                 e.printStackTrace();
                 response.getWriter().write("{\"error\": \"Database error: " + e.getMessage() + "\"}");
+            } catch (Exception ex) {
+                Logger.getLogger(MessageServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             response.setContentType("application/json");
