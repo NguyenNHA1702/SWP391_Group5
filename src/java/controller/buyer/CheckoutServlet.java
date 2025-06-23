@@ -29,14 +29,14 @@ public class CheckoutServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
 
-        // 1. Kiểm tra đăng nhập
+       
         User user = (User) session.getAttribute("account");
         if (user == null || !"buyer".equals(user.getRole())) {
             response.sendRedirect("login.jsp");
             return;
         }
 
-        // 2. Lấy giỏ hàng
+        
         List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
         if (cart == null || cart.isEmpty()) {
             request.setAttribute("errorMessage", "Giỏ hàng trống.");
@@ -44,7 +44,7 @@ public class CheckoutServlet extends HttpServlet {
             return;
         }
 
-        // 3. Lấy thông tin từ form
+        
         String name = request.getParameter("fullName");
         String phone = request.getParameter("phone");
         String address = request.getParameter("address");
@@ -52,9 +52,9 @@ public class CheckoutServlet extends HttpServlet {
         String district = request.getParameter("district");
         String ward = request.getParameter("ward");
         String paymentMethod = request.getParameter("paymentMethod");
-        String note = request.getParameter("note"); // chưa lưu DB nhưng có thể dùng hiển thị
+        String note = request.getParameter("note"); 
 
-        // Validate cơ bản
+  
         if (name == null || phone == null || address == null
                 || name.trim().isEmpty() || phone.trim().isEmpty() || address.trim().isEmpty()) {
             request.setAttribute("errorMessage", "Vui lòng nhập đầy đủ thông tin giao hàng.");
@@ -63,7 +63,7 @@ public class CheckoutServlet extends HttpServlet {
         }
 
         try {
-            // 4. Tạo ShippingInfo
+            
             ShippingInfo info = new ShippingInfo();
             info.setUserId(user.getUserId());
             info.setRecipientName(name);
@@ -72,11 +72,10 @@ public class CheckoutServlet extends HttpServlet {
             info.setProvince(province);
             info.setDistrict(district);
             info.setWard(ward);
-
-            // 5. Lưu shipping_info → lấy shippingId
+            //SAVE IN SHIPPING
             int shippingId = ShippingInfoDAO.saveShippingInfo(info);
 
-            // 6. Gọi placeOrder truyền thêm phương thức thanh toán
+            //call to placeOrder
             boolean success = OrderDAO.placeOrder(user, cart, shippingId, paymentMethod, note);
 
 

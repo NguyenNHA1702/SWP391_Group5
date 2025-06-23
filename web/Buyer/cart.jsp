@@ -56,9 +56,11 @@
                     <h2 class="text-4xl font-extrabold flex items-center tracking-tight text-green-900">
                         <i class="fas fa-shopping-cart mr-3"></i> Your Cart
                     </h2>
-                    <a href="${pageContext.request.contextPath}/farmer/inventory?campaignId=${param.campaignId}" class="gradient-btn text-white px-6 py-3 rounded-xl font-semibold shadow-lg action-btn">
-                        <i class="fas fa-arrow-left mr-2"></i> Back
+                    <a href="${pageContext.request.contextPath}/farmer/inventory?campaignId=${param.campaignId}"
+                       class="gradient-btn text-white px-6 py-3 rounded-xl shadow-lg action-btn">
+                        <i class="fas fa-arrow-left mr-2"></i> Back to Inventory
                     </a>
+
                 </div>
 
                 <c:if test="${empty cart}">
@@ -106,7 +108,7 @@
                                             <fmt:formatNumber value="<%= subtotal %>" type="number" pattern="#,##0"/> ₫
                                         </td>
                                         <td class="py-4 px-6 border-b text-center">
-                                            <a href="${pageContext.request.contextPath}/remove-from-cart?productId=<%= item.getProduct().getProductId() %>"
+                                            <a href="${pageContext.request.contextPath}/remove-from-cart?productId=<%= item.getProduct().getProductId() %>&campaignId=${param.campaignId}"
                                                class="text-red-600 font-bold hover:underline">❌</a>
                                         </td>
                                     </tr>

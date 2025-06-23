@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller.buyer;
 
 import jakarta.servlet.*;
@@ -15,23 +14,30 @@ import java.util.List;
 
 @WebServlet("/remove-from-cart")
 public class RemoveFromCartServlet extends HttpServlet {
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
+  @Override
+  protected void doGet(HttpServletRequest request, HttpServletResponse response)
+          throws ServletException, IOException {
+      HttpSession session = request.getSession();
+      List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
 
-        String productIdStr = request.getParameter("productId");
-        if (cart != null && productIdStr != null) {
-            try {
-                int productId = Integer.parseInt(productIdStr);
-                cart.removeIf(item -> item.getProduct().getProductId() == productId);
-            } catch (NumberFormatException ignored) {
-            }
-        }
+      
+      String productIdStr = request.getParameter("productId");
+      String campaignId  = request.getParameter("campaignId");
 
-        response.sendRedirect(request.getContextPath() + "/Buyer/cart.jsp");
-    }
+      if (cart != null && productIdStr != null) {
+          try {
+              int productId = Integer.parseInt(productIdStr);
+              cart.removeIf(item -> item.getProduct().getProductId() == productId);
+              session.setAttribute("cart", cart);
+          } catch (NumberFormatException ignored) { }
+      }
+
+     
+      String cp     = request.getContextPath();              
+      String target = cp + "/Buyer/cart.jsp";
+      if (campaignId != null && !campaignId.isEmpty()) {
+          target += "?campaignId=" + campaignId;
+      }
+      response.sendRedirect(target);
+  }
 }
-
-

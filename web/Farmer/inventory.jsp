@@ -2,7 +2,7 @@
     Document   : inventory
     Created on : 18 Jun 2025, 23:16:11
     Author     : HP
-    Updated on : 19 Jun 2025
+    Updated on : 23 Jun 2025
 --%>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -68,7 +68,6 @@
                 <c:if test="${sessionScope.role == 'farmer'}">
                     <div class="mb-8">
                         <a href="${pageContext.request.contextPath}/Farmer/createProduct.jsp?campaignId=${param.campaignId}">➕ Add New Product</a>
-
                     </div>
                 </c:if>
 
@@ -78,7 +77,6 @@
                             <thead class="table-header">
                                 <tr>
                                     <th class="py-4 px-6 text-left text-white font-semibold tracking-wide">STT</th>
-                                    <!--                                    <th class="py-4 px-6 text-left text-white font-semibold tracking-wide">ID</th>-->
                                     <th class="py-4 px-6 text-left text-white font-semibold tracking-wide">Name</th>
                                     <th class="py-4 px-6 text-left text-white font-semibold tracking-wide">Description</th>
                                     <th class="py-4 px-6 text-left text-white font-semibold tracking-wide">Price (VND)</th>
@@ -91,8 +89,6 @@
                                 <c:forEach var="p" items="${products}">
                                     <tr class="hover:bg-green-50 hover:bg-opacity-50">
                                         <td class="py-4 px-6 border-b border-green-200">${p.stt}</td>
-
-
                                         <td class="py-4 px-6 border-b border-green-200">${p.name}</td>
                                         <td class="py-4 px-6 border-b border-green-200">${p.description}</td>
                                         <td class="py-4 px-6 border-b border-green-200"><fmt:formatNumber value="${p.price}" type="number" pattern="#,##0"/> ₫</td>
@@ -102,29 +98,45 @@
                                             <c:choose>
                                                 <c:when test="${sessionScope.role == 'farmer'}">
                                                     <div class="flex space-x-3">
-                                                        <a href="${pageContext.request.contextPath}/edit?id=${p.productId}" class="action-btn bg-amber-400 text-gray-900 px-4 py-2 rounded-lg font-medium hover:bg-amber-500">
+                                                        <a href="${pageContext.request.contextPath}/edit?id=${p.productId}&campaignId=${param.campaignId}"
+                                                           class="action-btn bg-amber-400 text-gray-900 px-4 py-2 rounded-lg font-medium hover:bg-amber-500">
                                                             ✏️ Edit
                                                         </a>
-                                                        <form action="${pageContext.request.contextPath}/delete" method="post" onsubmit="return confirm('Are you sure you want to delete this product?');">
+                                                        <form action="${pageContext.request.contextPath}/delete" method="post"
+                                                              onsubmit="return confirm('Are you sure you want to delete this product?');">
                                                             <input type="hidden" name="productId" value="${p.productId}" />
                                                             <input type="hidden" name="campaignId" value="${param.campaignId}" />
-                                                            <button type="submit" class="action-btn bg-red-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-red-700">
+                                                            <button type="submit"
+                                                                    class="action-btn bg-red-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-red-700">
                                                                 🗑️ Delete
                                                             </button>
                                                         </form>
-
                                                     </div>
                                                 </c:when>
                                                 <c:when test="${sessionScope.role == 'buyer'}">
-                                                    <form action="${pageContext.request.contextPath}/add-to-cart" method="post">
-                                                        <input type="hidden" name="productId" value="${p.productId}" />
-                                                        <input type="hidden" name="productName" value="${p.name}" />
-                                                        <input type="hidden" name="price" value="${p.price}" />
-                                                        <input type="hidden" name="quantity" value="1" />
-                                                        <button type="submit" class="action-btn gradient-btn text-white px-4 py-2 rounded-lg font-medium">
-                                                            🛒 Buy Now
-                                                        </button>
-                                                    </form>
+                                                    <c:choose>
+
+                                                        <c:when test="${p.quantity > 0}">
+                                                            <form action="${pageContext.request.contextPath}/add-to-cart" method="post">
+                                                                <input type="hidden" name="productId"   value="${p.productId}" />
+                                                                <input type="hidden" name="productName"  value="${p.name}" />
+                                                                <input type="hidden" name="price"        value="${p.price}" />
+                                                                <input type="hidden" name="quantity"     value="1" />
+                                                                <input type="hidden" name="campaignId"   value="${param.campaignId}" />
+                                                                <button type="submit"
+                                                                        class="action-btn gradient-btn text-white px-4 py-2 rounded-lg font-medium">
+                                                                    🛒 Buy Now
+                                                                </button>
+                                                            </form>
+                                                        </c:when>
+
+                                                        <c:otherwise>
+                                                            <button disabled
+                                                                    class="action-btn bg-gray-400 text-white px-4 py-2 rounded-lg font-medium cursor-not-allowed">
+                                                                Sold Out
+                                                            </button>
+                                                        </c:otherwise>
+                                                    </c:choose>
                                                 </c:when>
 
                                                 <c:otherwise>

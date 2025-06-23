@@ -56,7 +56,8 @@
                     <form action="${pageContext.request.contextPath}/edit" method="post" class="space-y-6">
                         <!-- Hidden productId và campaignId -->
                         <input type="hidden" name="productId" value="${product.productId}" />
-                        <input type="hidden" name="campaignId" value="${product.campaignId}" />
+                        <input type="hidden" name="campaignId" value="${campaignId}" />
+
 
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Product Name</label>

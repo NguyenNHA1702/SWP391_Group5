@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class AddToCartServlet extends HttpServlet {
 
     @Override
@@ -25,18 +26,19 @@ public class AddToCartServlet extends HttpServlet {
         String role = (String) session.getAttribute("role");
 
         if (role == null || !role.equals("buyer")) {
-            response.sendRedirect("login.jsp");
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
             return;
         }
 
         try {
             int productId = Integer.parseInt(request.getParameter("productId"));
-            int quantity = Integer.parseInt(request.getParameter("quantity"));
+            int quantity  = Integer.parseInt(request.getParameter("quantity"));
+            // Đọc campaignId từ form
+            String campaignId = request.getParameter("campaignId");
 
             Product product = ProductDAO.getProductById(productId);
             if (product == null || product.getProductId() <= 0) {
-                System.out.println("❌ Không tìm thấy sản phẩm với ID: " + productId);
-                response.sendRedirect("error.jsp");
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
                 return;
             }
 
@@ -60,14 +62,21 @@ public class AddToCartServlet extends HttpServlet {
             }
 
             session.setAttribute("cart", cart);
-            response.sendRedirect("Buyer/cart.jsp");
+
+            //xu li nut back
+            String cp = request.getContextPath();
+            String target = cp + "/Buyer/cart.jsp";
+            if (campaignId != null && !campaignId.isEmpty()) {
+                target += "?campaignId=" + campaignId;
+            }
+            response.sendRedirect(target);
 
         } catch (NumberFormatException e) {
-            e.printStackTrace();
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid input format");
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("error.jsp");
+            response.sendRedirect(request.getContextPath() + "/error.jsp");
         }
     }
 }
+
