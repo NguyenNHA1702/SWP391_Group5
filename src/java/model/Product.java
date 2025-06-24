@@ -20,8 +20,9 @@ public class Product {
     private int quantity;
     private String language;
     private Date createdAt;
-    private Integer campaignId; // nullable, vì có thể chưa gán chiến dịch
+    private Integer campaignId;
     private int stt;
+    private int soldQty;
 
     public Product() {
     }
@@ -104,5 +105,13 @@ public class Product {
 
     public void setCampaignId(Integer campaignId) {
         this.campaignId = campaignId;
+    }
+
+    public int getSoldQty() {
+        return soldQty;
+    }
+
+    public void setSoldQty(int soldQty) {
+        this.soldQty = soldQty;
     }
 }

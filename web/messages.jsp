@@ -139,9 +139,9 @@
                     <button onclick="showUserModal()" class="bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700">New</button>
                 </div>
                 <div class="p-2">
-    <input type="text" placeholder="Search conversations..." onkeyup="filterConversations(this.value)"
-        class="w-full px-2 py-1 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400" />
-</div>
+                    <input type="text" placeholder="Search conversations..." onkeyup="filterConversations(this.value)"
+                           class="w-full px-2 py-1 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                </div>
                 <div id="conversationList" class="flex-1 overflow-y-auto">
                     <div class="p-4 text-gray-500">Loading conversations...</div>
                 </div>
@@ -169,7 +169,7 @@
             <div class="modal-content">
                 <h2 class="text-xl font-semibold text-green-700 mb-4">Start New Conversation</h2>
                 <input type="text" placeholder="Search users..." onkeyup="filterUsers(this.value)"
-    class="w-full mb-3 px-2 py-1 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                       class="w-full mb-3 px-2 py-1 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400" />
                 <div id="userList" class="max-h-60 overflow-y-auto">
                     <div class="p-2 text-gray-500">Loading users...</div>
                 </div>
@@ -193,90 +193,90 @@
             }
 
             // Load conversations
-           document.addEventListener('DOMContentLoaded', function () {
-    console.log('DOM fully loaded, initiating loads for userId:', userId);
-    loadConversations();
-});
-
-function loadConversations() {
-    console.log('Loading conversations for userId:', userId);
-    fetch('<%= request.getContextPath()%>/MessageServlet?action=listConversations&userId=' + userId)
-        .then(response => {
-            if (!response.ok) {
-                console.error('Fetch error (conversations):', response.status, response.statusText);
-                return response.text();
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Conversations data received:', data);
-            const conversationList = document.getElementById('conversationList');
-            if (!conversationList) {
-                console.error('Conversation list element not found');
-                return;
-            }
-
-            conversationList.innerHTML = ''; // Clear existing content
-            if (typeof data === 'string' || (data && data.error)) {
-                conversationList.innerHTML = '<div class="p-2 text-red-500">Error: ' + (data.error || data.substring(0, 100)) + '...</div>';
-                return;
-            }
-
-            if (!Array.isArray(data)) {
-                conversationList.innerHTML = '<div class="p-2 text-red-500">Error: Invalid data format</div>';
-                console.error('Data is not an array:', data);
-                return;
-            }
-
-            if (data.length === 0) {
-                conversationList.innerHTML = '<div class="p-4 text-gray-500">No conversations yet</div>';
-                return;
-            }
-
-            data.forEach(conv => {
-                console.log('Processing conversation:', conv);
-                const div = document.createElement('div');
-                div.className = 'conversation flex justify-between items-center p-2 hover:bg-gray-100 cursor-pointer text-sm';
-                div.style.minHeight = '40px';
-                div.style.borderBottom = '1px solid #e5e7eb';
-                div.style.backgroundColor = 'white'; // Ensure visible background
-
-                const username = conv.otherUsername || 'Unknown User';
-                const unreadBadge = conv.unreadCount > 0
-                    ? `<span class="unread-badge">${conv.unreadCount}</span>`
-                    : '';
-
-                const usernameSpan = document.createElement('span');
-                usernameSpan.className = 'username-text truncate';
-                usernameSpan.textContent = username;
-                div.appendChild(usernameSpan);
-
-const statusSpan = document.createElement('span');
-statusSpan.className = 'text-xs text-gray-500 ml-2';
-statusSpan.textContent = conv.unreadCount > 0 ? 'Unseen' : 'Seen';
-div.appendChild(statusSpan);
-
-                if (unreadBadge) {
-                    const badgeSpan = document.createElement('span');
-                    badgeSpan.innerHTML = unreadBadge;
-                    div.appendChild(badgeSpan);
-                }
-
-                div.addEventListener('click', () => {
-                    selectConversation(conv.otherUserId, conv.otherUsername);
-                });
-
-                conversationList.appendChild(div);
+            document.addEventListener('DOMContentLoaded', function () {
+                console.log('DOM fully loaded, initiating loads for userId:', userId);
+                loadConversations();
             });
-        })
-        .catch(error => {
-            console.error('Error loading conversations:', error);
-            const conversationList = document.getElementById('conversationList');
-            if (conversationList) {
-                conversationList.innerHTML = '<div class="p-2 text-red-500">Failed to load: ' + error.message + '</div>';
+
+            function loadConversations() {
+                console.log('Loading conversations for userId:', userId);
+                fetch('<%= request.getContextPath()%>/MessageServlet?action=listConversations&userId=' + userId)
+                        .then(response => {
+                            if (!response.ok) {
+                                console.error('Fetch error (conversations):', response.status, response.statusText);
+                                return response.text();
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log('Conversations data received:', data);
+                            const conversationList = document.getElementById('conversationList');
+                            if (!conversationList) {
+                                console.error('Conversation list element not found');
+                                return;
+                            }
+
+                            conversationList.innerHTML = ''; // Clear existing content
+                            if (typeof data === 'string' || (data && data.error)) {
+                                conversationList.innerHTML = '<div class="p-2 text-red-500">Error: ' + (data.error || data.substring(0, 100)) + '...</div>';
+                                return;
+                            }
+
+                            if (!Array.isArray(data)) {
+                                conversationList.innerHTML = '<div class="p-2 text-red-500">Error: Invalid data format</div>';
+                                console.error('Data is not an array:', data);
+                                return;
+                            }
+
+                            if (data.length === 0) {
+                                conversationList.innerHTML = '<div class="p-4 text-gray-500">No conversations yet</div>';
+                                return;
+                            }
+                            
+                            data.forEach(conv => {
+                                console.log('Processing conversation:', conv);
+                                const div = document.createElement('div');
+                                div.className = 'conversation flex justify-between items-center p-2 hover:bg-gray-100 cursor-pointer text-sm';
+                                div.style.minHeight = '40px';
+                                div.style.borderBottom = '1px solid #e5e7eb';
+                                div.style.backgroundColor = 'white'; // Ensure visible background
+
+                                const username = conv.otherUsername || 'Unknown User';
+                                const unreadBadge = conv.unreadCount > 0
+                                        ? `<span class="unread-badge">${conv.unreadCount}</span>`
+                                        : '';
+                                        
+                                const usernameSpan = document.createElement('span');
+                                usernameSpan.className = 'username-text truncate';
+                                usernameSpan.textContent = username;
+                                div.appendChild(usernameSpan);
+
+                                const statusSpan = document.createElement('span');
+                                statusSpan.className = 'text-xs text-gray-500 ml-2';
+                                statusSpan.textContent = conv.unreadCount > 0 ? 'Unseen' : 'Seen';
+                                div.appendChild(statusSpan);
+
+                                if (unreadBadge) {
+                                    const badgeSpan = document.createElement('span');
+                                    badgeSpan.innerHTML = unreadBadge;
+                                    div.appendChild(badgeSpan);
+                                }
+                                
+                                div.addEventListener('click', () => {
+                                    selectConversation(conv.otherUserId, conv.otherUsername);
+                                });
+
+                                conversationList.appendChild(div);
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error loading conversations:', error);
+                            const conversationList = document.getElementById('conversationList');
+                            if (conversationList) {
+                                conversationList.innerHTML = '<div class="p-2 text-red-500">Failed to load: ' + error.message + '</div>';
+                            }
+                        });
             }
-        });
-}
 
             // Load users for new conversation
             function loadUsers() {
@@ -462,21 +462,40 @@ div.appendChild(statusSpan);
                 // showUserModal(); // Uncomment to test modal on load
             });
             function filterConversations(keyword) {
-    keyword = keyword.toLowerCase();
-    const list = document.querySelectorAll('#conversationList .conversation');
-    list.forEach(item => {
-        const name = item.querySelector('.username-text')?.textContent.toLowerCase() || '';
-        item.style.display = name.includes(keyword) ? 'flex' : 'none';
-    });
-}
+                keyword = keyword.toLowerCase();
+                const list = document.querySelectorAll('#conversationList .conversation');
+                list.forEach(item => {
+                    const name = item.querySelector('.username-text')?.textContent.toLowerCase() || '';
+                    item.style.display = name.includes(keyword) ? 'flex' : 'none';
+                });
+            }
 
-function filterUsers(keyword) {
-    keyword = keyword.toLowerCase();
-    const list = document.querySelectorAll('#userList > div');
-    list.forEach(item => {
-        const name = item.textContent.toLowerCase();
-        item.style.display = name.includes(keyword) ? 'block' : 'none';
-    });
+            function filterUsers(keyword) {
+                keyword = keyword.toLowerCase();
+                const list = document.querySelectorAll('#userList > div');
+                list.forEach(item => {
+                    const name = item.textContent.toLowerCase();
+                    item.style.display = name.includes(keyword) ? 'block' : 'none';
+                });
+            }
+            function deleteConversation(otherUserId) {
+    if (confirm('Are you sure you want to delete this conversation?')) {
+        fetch('<%= request.getContextPath()%>/MessageServlet?action=deleteConversation&userId=' + userId + '&otherUserId=' + otherUserId, {
+            method: 'POST'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'Conversation deleted') {
+                loadConversations(); // Refresh conversation list
+                document.getElementById('messageArea').innerHTML = '<div class="p-4 text-gray-500">Select a conversation to start</div>';
+                selectedUserId = null;
+                document.getElementById('chatWith').textContent = 'Select a conversation';
+            } else {
+                alert('Failed to delete conversation: ' + (data.error || 'Unknown error'));
+            }
+        })
+        .catch(error => console.error('Error deleting conversation:', error));
+    }
 }
         </script>
     </body>

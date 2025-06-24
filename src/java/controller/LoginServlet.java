@@ -18,7 +18,7 @@ import java.sql.SQLException;
 public class LoginServlet extends HttpServlet {
 
     // Database connection details (update with your credentials)
-    private static final String DB_URL = "jdbc:sqlserver://localhost:1433;databaseName=AgriRescue_DB1";
+    private static final String DB_URL = "jdbc:sqlserver://localhost:1433;databaseName=AgriRescue_DB2";
     private static final String DB_USER = "sa";
     private static final String DB_PASSWORD = "123";
 

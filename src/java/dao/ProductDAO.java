@@ -270,4 +270,156 @@ public class ProductDAO {
         }
     }
 
+    public List<Product> filterProducts(String name, Double minPrice, Double maxPrice, Boolean inStock) {
+        List<Product> list = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("SELECT * FROM Products WHERE 1=1");
+
+        if (name != null && !name.trim().isEmpty()) {
+            sql.append(" AND name LIKE ?");
+        }
+        if (minPrice != null) {
+            sql.append(" AND price >= ?");
+        }
+        if (maxPrice != null) {
+            sql.append(" AND price <= ?");
+        }
+        if (inStock != null && inStock) {
+            sql.append(" AND quantity > 0");
+        }
+
+        try (Connection conn = DBUtil.getConnection(); PreparedStatement ps = conn.prepareStatement(sql.toString());) {
+            int index = 1;
+            if (name != null && !name.trim().isEmpty()) {
+                ps.setString(index++, "%" + name + "%");
+            }
+            if (minPrice != null) {
+                ps.setDouble(index++, minPrice);
+            }
+            if (maxPrice != null) {
+                ps.setDouble(index++, maxPrice);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Product p = new Product();
+                // Set các field từ rs
+                p.setProductId(rs.getInt("product_id"));
+                p.setName(rs.getString("name"));
+                p.setDescription(rs.getString("description"));
+                p.setPrice(rs.getDouble("price"));
+                p.setQuantity(rs.getInt("quantity"));
+                p.setCreatedAt(rs.getTimestamp("created_at"));
+                list.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<Product> filterProductsByUser(int userId, String name, Double minPrice, Double maxPrice, Boolean inStock) {
+        List<Product> list = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("SELECT * FROM products WHERE user_id = ?");
+
+        if (name != null && !name.trim().isEmpty()) {
+            sql.append(" AND name LIKE ?");
+        }
+        if (minPrice != null) {
+            sql.append(" AND price >= ?");
+        }
+        if (maxPrice != null) {
+            sql.append(" AND price <= ?");
+        }
+        if (inStock != null && inStock) {
+            sql.append(" AND quantity > 0");
+        }
+
+        try (Connection conn = DBUtil.getConnection(); PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+            int index = 1;
+            ps.setInt(index++, userId);
+
+            if (name != null && !name.trim().isEmpty()) {
+                ps.setString(index++, "%" + name + "%");
+            }
+            if (minPrice != null) {
+                ps.setDouble(index++, minPrice);
+            }
+            if (maxPrice != null) {
+                ps.setDouble(index++, maxPrice);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Product p = new Product();
+                p.setProductId(rs.getInt("product_id"));
+                p.setUserId(rs.getInt("user_id"));
+                p.setName(rs.getString("name"));
+                p.setDescription(rs.getString("description"));
+                p.setPrice(rs.getDouble("price"));
+                p.setQuantity(rs.getInt("quantity"));
+                p.setLanguage(rs.getString("language"));
+                p.setCreatedAt(rs.getTimestamp("created_at"));
+                p.setCampaignId(rs.getInt("campaign_id"));
+                list.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public List<Product> filterProductsByCampaign(int campaignId, String name, Double minPrice, Double maxPrice, Boolean inStock) {
+        List<Product> list = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("SELECT ROW_NUMBER() OVER (ORDER BY product_id) AS stt, * FROM products WHERE campaign_id = ?");
+
+        if (name != null && !name.trim().isEmpty()) {
+            sql.append(" AND name LIKE ?");
+        }
+        if (minPrice != null) {
+            sql.append(" AND price >= ?");
+        }
+        if (maxPrice != null) {
+            sql.append(" AND price <= ?");
+        }
+        if (inStock != null && inStock) {
+            sql.append(" AND quantity > 0");
+        }
+
+        try (Connection conn = DBUtil.getConnection(); PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+            int index = 1;
+            ps.setInt(index++, campaignId);
+
+            if (name != null && !name.trim().isEmpty()) {
+                ps.setString(index++, "%" + name + "%");
+            }
+            if (minPrice != null) {
+                ps.setDouble(index++, minPrice);
+            }
+            if (maxPrice != null) {
+                ps.setDouble(index++, maxPrice);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Product p = new Product();
+                p.setProductId(rs.getInt("product_id"));
+                p.setUserId(rs.getInt("user_id"));
+                p.setName(rs.getString("name"));
+                p.setDescription(rs.getString("description"));
+                p.setPrice(rs.getDouble("price"));
+                p.setQuantity(rs.getInt("quantity"));
+                p.setLanguage(rs.getString("language"));
+                p.setCreatedAt(rs.getTimestamp("created_at"));
+                p.setCampaignId(rs.getInt("campaign_id"));
+                p.setStt(rs.getInt("stt"));
+                list.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
 }
