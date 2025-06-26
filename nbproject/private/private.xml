@@ -2,27 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/src/java/dao/ProductDAO.java</file>
-            <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/src/java/model/Campaign.java</file>
-            <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/src/java/controller/farmer/MyInventoryServlet.java</file>
-            <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/web/index.jsp</file>
-            <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/src/java/dao/JoinRequestDAO.java</file>
-            <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/web/Farmer/inventory.jsp</file>
-            <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/src/java/controller/buyer/CheckoutServlet.java</file>
-            <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/src/java/controller/buyer/RemoveFromCartServlet.java</file>
-            <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/src/java/model/User.java</file>
-            <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/src/java/model/CartItem.java</file>
-            <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/src/java/controller/farmer/EditProductServlet.java</file>
-            <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/src/java/controller/buyer/UpdateCartServlet.java</file>
-            <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/src/java/controller/farmer/AddProductServlet.java</file>
-            <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/web/components/cartButton.jsp</file>
-            <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/src/java/utils/DBUtil.java</file>
-            <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/src/java/controller/buyer/AddToCartServlet.java</file>
-            <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/src/java/controller/farmer/DeleteProductServlet.java</file>
-            <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/src/java/model/Product.java</file>
-            <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/web/WEB-INF/web.xml</file>
-            <file>file:/F:/FPT-Ki5/SWP391/SWP391_webgiaicuunongsan/web/Buyer/cart.jsp</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

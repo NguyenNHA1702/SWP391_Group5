@@ -10,7 +10,7 @@ public class User {
     private String password;
     private String phone;
     private String username;
-    private String address;
+    private String address;//=null
     private String role;
     private String documentPath;
     private boolean isApproved;

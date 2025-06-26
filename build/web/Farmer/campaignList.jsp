@@ -348,9 +348,9 @@
                     </select>
                 </div>
                 <div class="header-title">AgriRescue</div>
-                 <%
-        String ctx = request.getContextPath();
-        String homeLink = (user != null) ? ctx + "/home" : ctx + "/index.jsp";
+                <%
+       String ctx = request.getContextPath();
+       String homeLink = (user != null) ? ctx + "/home" : ctx + "/index.jsp";
                 %>
                 <a href="<%= homeLink %>" class="home-btn">Home Page</a>
             </div>
@@ -601,7 +601,7 @@
         </script>
 
         <script>
-             let currentLanguage = 'vi';
+            let currentLanguage = 'vi';
             const translations = {
                 vi: {
                     headerTitle: 'AgriRescue',
@@ -670,83 +670,6 @@
                     emptyMessage: 'You have no campaigns yet.'
                 }
             };
-
-
-            function changeLanguage(lang) {
-                currentLanguage = lang;
-                const t = translations[lang] || translations.en;
-                const userName = '<%= user != null ? user : "" %>'; // Bạn nên truyền biến user qua JS an toàn hơn
-
-                document.querySelector('.header-title').textContent = t.headerTitle;
-                document.querySelector('.home-btn').textContent = t.homeBtn;
-
-                const loginLink = document.querySelector('.header-actions a.login');
-                if (loginLink)
-                    loginLink.textContent = t.login;
-
-                const welcomeSpan = document.querySelector('.header-actions span');
-                if (welcomeSpan)
-                    welcomeSpan.textContent = t.welcome(userName);
-
-                const logoutLink = document.querySelector('.header-actions a.logout');
-                if (logoutLink)
-                    logoutLink.textContent = t.logout;
-
-                // Bạn để h1 hay h2 thì nên thống nhất, ở đây mình để h1 cho cả 2
-                const pageTitle = document.querySelector('h1') || document.querySelector('h2');
-                if (pageTitle)
-                    pageTitle.textContent = t.pageTitle;
-
-                const btnAddCampaign = document.querySelector('#btnAddCampaign');
-                if (btnAddCampaign)
-                    btnAddCampaign.textContent = t.addCampaignBtn;
-
-                const ths = document.querySelectorAll('table thead th');
-                t.tableHeaders.forEach((text, i) => {
-                    if (ths[i])
-                        ths[i].textContent = text;
-                });
-
-                const modalLabel = document.getElementById('campaignModalLabel');
-                if (modalLabel) {
-                    const mode = modalLabel.getAttribute('data-mode');
-                    if (mode === 'edit') {
-                        modalLabel.textContent = t.modalTitleEdit;
-                    } else {
-                        modalLabel.textContent = t.modalTitleAdd;
-                    }
-                }
-
-                document.querySelector('label[for="title"]').textContent = t.formLabels.title;
-                document.querySelector('label[for="description"]').textContent = t.formLabels.description;
-                document.querySelector('label[for="goalAmount"]').textContent = t.formLabels.goalAmount;
-                document.querySelector('label[for="startDate"]').textContent = t.formLabels.startDate;
-                document.querySelector('label[for="endDate"]').textContent = t.formLabels.endDate;
-
-                const submitBtn = document.querySelector('#campaignForm button[type="submit"]');
-                if (submitBtn)
-                    submitBtn.textContent = t.submitBtn;
-
-                const closeBtn = document.querySelector('#campaignForm button.btn-secondary');
-                if (closeBtn)
-                    closeBtn.textContent = t.closeBtn;
-
-                document.querySelectorAll('.btnEditCampaign').forEach(btn => btn.textContent = t.editBtn);
-                const emptyRow = document.querySelector('tbody tr td.text-center');
-                if (emptyRow)
-                    emptyRow.textContent = t.emptyMessage;
-                // Đổi placeholder và nút tìm kiếm
-                const searchInput = document.querySelector('input[name="title"]');
-                if (searchInput) {
-                    searchInput.placeholder = lang === 'vi' ? 'Nhập tiêu đề chiến dịch' : 'Enter campaign title';
-                    searchInput.setAttribute('aria-label', searchInput.placeholder);
-                }
-
-                const searchBtn = document.querySelector('form button[type="submit"]');
-                if (searchBtn) {
-                    searchBtn.textContent = lang === 'vi' ? 'Tìm kiếm' : 'Search';
-                }
-            }
 
 
             // Hàm chuyển đổi chuỗi tiền  sang số
