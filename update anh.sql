@@ -64,6 +64,9 @@ UPDATE products SET campaign_id = 7 WHERE product_id IN (10, 11);
 UPDATE products SET campaign_id = 8 WHERE product_id IN (12);
 UPDATE products SET campaign_id = 9 WHERE product_id IN (13);
 
+UPDATE users SET isApproved = 1 WHERE role = 'admin' OR role = 'user';
+UPDATE users SET isApproved = 0 WHERE role = 'farmer';
+
 
 
 UPDATE campaigns

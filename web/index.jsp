@@ -101,10 +101,7 @@
         %>
         <header class="header sticky top-0 z-50 shadow-lg py-4 px-6 flex justify-between items-center">
             <div class="flex items-center space-x-4">
-                <select onchange="changeLanguage(this.value)" class="bg-white border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
-                    <option value="en">English</option>
-                    <option value="vi">Tiếng Việt</option>
-                </select>
+
                 <h1 class="text-2xl font-bold text-white">AgriRescue</h1>
                 <%
                     String ctx = request.getContextPath();
@@ -312,33 +309,6 @@
                 </div>
             </div>
 
-            <!-- Call to Action Banner -->
-            <section class="cta-banner mb-8">
-                <h2 class="text-3xl font-bold mb-4">Join Hands to Rescue Agricultural Products Today!</h2>
-                <%
-                    if (user == null) {
-                %>
-                <a href="signup.jsp" class="bg-green-700 text-white px-6 py-3 rounded-lg hover:bg-green-800 transition">Join Now</a>
-                <%
-                    } else {
-                %>
-                <a href="browse" class="bg-green-700 text-white px-6 py-3 rounded-lg hover:bg-green-800 transition">Browse Campaigns</a>
-                <%
-                    }
-                %>
-            </section>
-
-            <%
-                if (user == null) {
-            %>
-            <p class="text-center text-gray-600">Login or Sign Up to access more features like creating campaigns and managing your inventory.</p>
-            <%
-                } else {
-            %>
-            <p class="text-center text-gray-600">Explore more features like creating campaigns and managing your inventory.</p>
-            <%
-                }
-            %>
         </main>
 
         <footer class="footer fixed bottom-0 w-full py-4 px-6 flex justify-between items-center text-white">
