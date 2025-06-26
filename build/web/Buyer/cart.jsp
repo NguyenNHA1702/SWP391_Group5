@@ -56,10 +56,21 @@
                     <h2 class="text-4xl font-extrabold flex items-center tracking-tight text-green-900">
                         <i class="fas fa-shopping-cart mr-3"></i> Your Cart
                     </h2>
-                    <a href="${pageContext.request.contextPath}/farmer/inventory?campaignId=${param.campaignId}"
-                       class="gradient-btn text-white px-6 py-3 rounded-xl shadow-lg action-btn">
-                        <i class="fas fa-arrow-left mr-2"></i> Back to Inventory
-                    </a>
+                    <c:choose>
+                        <c:when test="${param.source == 'index'}">
+                            <a href="${pageContext.request.contextPath}/home"
+                               class="gradient-btn text-white px-6 py-3 rounded-xl shadow-lg action-btn">
+                                <i class="fas fa-arrow-left mr-2"></i> Back to Home
+                            </a>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="${pageContext.request.contextPath}/farmer/inventory?campaignId=${param.campaignId}"
+                               class="gradient-btn text-white px-6 py-3 rounded-xl shadow-lg action-btn">
+                                <i class="fas fa-arrow-left mr-2"></i> Back to Inventory
+                            </a>
+                        </c:otherwise>
+                    </c:choose>
+
 
                 </div>
 
@@ -67,7 +78,7 @@
                     <div class="text-center py-12">
                         <i class="fas fa-cart-arrow-down text-5xl text-gray-400 mb-4"></i>
                         <p class="text-lg text-gray-600 mb-4">Your cart is empty.</p>
-                        <a href="productList" class="gradient-btn text-white px-6 py-3 rounded-xl font-semibold shadow-lg action-btn">
+                        <a href="${pageContext.request.contextPath}/home" class="gradient-btn text-white px-6 py-3 rounded-xl font-semibold shadow-lg action-btn">
                             <i class="fas fa-store mr-2"></i> Shop Now
                         </a>
                     </div>
