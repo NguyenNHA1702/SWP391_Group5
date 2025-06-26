@@ -20,6 +20,7 @@
                 --icon-requests: #f57c00; /* Orange for join requests */
                 --icon-notifications: #d32f2f; /* Red for notifications */
                 --icon-stats: #7b1fa2; /* Purple for statistics */
+                --icon-messages: #6d28d9; /* Purple for messages */
             }
 
             body {
@@ -82,6 +83,28 @@
                 background-color: #e0a800;
             }
 
+            .messages-btn {
+                background-color: var(--icon-messages);
+                color: white;
+                border-radius: 20px;
+                position: relative;
+            }
+
+            .messages-btn:hover {
+                background-color: #5b21b6;
+            }
+
+            .unread-badge {
+                background-color: var(--icon-notifications);
+                color: white;
+                border-radius: 9999px;
+                padding: 2px 8px;
+                font-size: 12px;
+                position: absolute;
+                top: -10px;
+                right: -10px;
+            }
+
             .dashboard-title {
                 color: var(--dark-green);
                 font-weight: 700;
@@ -108,17 +131,32 @@
             .icon-stats {
                 color: var(--icon-stats);
             }
+            .icon-messages {
+                color: var(--icon-messages);
+            }
         </style>
     </head>
     <body>
+        <%
+            Integer unreadMessages = (Integer) session.getAttribute("unreadMessages");
+            if (unreadMessages == null) unreadMessages = 0;
+            String messageBadge = (unreadMessages > 99) ? "99+" : unreadMessages.toString();
+        %>
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">
                     <span class="ms-2 text-white">AgriRescue</span>
                 </a>
-                <div class="ms-auto">
-                    <a href="${pageContext.request.contextPath}/login.jsp" class="btn logout-btn">🚪 Logout</a>
-
+                <div class="ms-auto d-flex align-items-center gap-3">
+                    <a href="${pageContext.request.contextPath}/messages.jsp" class="btn messages-btn">
+                        <i class="fas fa-envelope icon icon-messages"></i>Messages
+                        <c:if test="${unreadMessages > 0}">
+                            <span class="unread-badge">${messageBadge}</span>
+                        </c:if>
+                    </a>
+                    <a href="${pageContext.request.contextPath}/login.jsp" class="btn logout-btn">
+                        <i class="fas fa-sign-out-alt icon"></i>Logout
+                    </a>
                 </div>
             </div>
         </nav>
@@ -145,7 +183,7 @@
                         </div>
                         <div class="card-body">
                             <p class="card-text">View all users and manage spam or blocked accounts.</p>
-                               <a href="${pageContext.request.contextPath}/userManagement" class="btn btn-success">Go</a>
+                            <a href="${pageContext.request.contextPath}/userManagement" class="btn btn-custom">Go</a>
                         </div>
                     </div>
                 </div>
