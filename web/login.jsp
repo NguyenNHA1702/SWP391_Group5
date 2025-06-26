@@ -190,6 +190,8 @@
                                 } else {
                                     window.location.href = 'home';
                                 }
+                            } else if (result === "not_approved") {
+                                alert("Tài khoản của bạn chưa được duyệt hoặc đã bị vô hiệu hóa.");
                             } else if (result.includes("not found")) {
                                 alert('Email không tồn tại.');
                             } else if (result.includes("incorrect")) {

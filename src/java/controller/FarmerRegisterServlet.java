@@ -34,10 +34,8 @@ public class FarmerRegisterServlet extends HttpServlet {
         String phone = request.getParameter("phone");
         String username = request.getParameter("user");
         String password = request.getParameter("pass");
-        String address = request.getParameter("address");
-        String role = "farmer"; // Role mặc định là farmer
+        String role = "farmer";
 
-        // Kiểm tra trùng lặp
         if (UserDAO.INSTANCE.isUsernameExist(username)) {
             request.setAttribute("error", "Username already exists!");
             request.getRequestDispatcher("farmerSignUp.jsp").forward(request, response);
@@ -52,22 +50,20 @@ public class FarmerRegisterServlet extends HttpServlet {
             return;
         }
 
-        // Tạo thư mục uploads/verifications nếu chưa tồn tại
+        // Tạo thư mục lưu file nếu chưa có
         String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIR;
         File uploadDir = new File(uploadPath);
-        if (!uploadDir.exists()) {
-            if (!uploadDir.mkdirs()) {
-                LOGGER.log(Level.SEVERE, "Failed to create directory: {0}", uploadPath);
-                request.setAttribute("error", "Failed to create upload directory.");
-                request.getRequestDispatcher("farmerSignUp.jsp").forward(request, response);
-                return;
-            }
+        if (!uploadDir.exists() && !uploadDir.mkdirs()) {
+            LOGGER.log(Level.SEVERE, "Failed to create directory: {0}", uploadPath);
+            request.setAttribute("error", "Failed to create upload directory.");
+            request.getRequestDispatcher("farmerSignUp.jsp").forward(request, response);
+            return;
         }
 
-        // Xử lý file tải lên
+        // Lấy file từ form
         Part filePart = request.getPart("verificationDocs");
         if (filePart == null || filePart.getSize() == 0) {
-            LOGGER.log(Level.WARNING, "No file uploaded or file is empty.");
+            LOGGER.warning("No file uploaded or file is empty.");
             request.setAttribute("error", "Please upload a verification document.");
             request.getRequestDispatcher("farmerSignUp.jsp").forward(request, response);
             return;
@@ -75,65 +71,67 @@ public class FarmerRegisterServlet extends HttpServlet {
 
         String fileName = filePart.getSubmittedFileName();
         if (fileName == null || fileName.isEmpty()) {
-            LOGGER.log(Level.WARNING, "Uploaded file name is null or empty.");
             request.setAttribute("error", "Invalid file name.");
             request.getRequestDispatcher("farmerSignUp.jsp").forward(request, response);
             return;
         }
 
-        // Lưu file tạm thời với username
-        String tempFilePath = uploadPath + File.separator + username + "_" + fileName;
+        // ✅ Chỉ cho phép các định dạng file hợp lệ
+        String lowerFile = fileName.toLowerCase();
+        if (!(lowerFile.endsWith(".pdf") || lowerFile.endsWith(".jpg") || lowerFile.endsWith(".jpeg")
+                || lowerFile.endsWith(".png") || lowerFile.endsWith(".docx") || lowerFile.endsWith(".zip"))) {
+            request.setAttribute("error", "Only files with .pdf, .jpg, .png, .jpeg, .docx, .zip are allowed.");
+            request.getRequestDispatcher("farmerSignUp.jsp").forward(request, response);
+            return;
+        }
+
+        // Ghi file tạm thời: username_filename.ext
+        String tempFileName = username + "_" + fileName;
+        String tempFilePath = uploadPath + File.separator + tempFileName;
+
         try {
             filePart.write(tempFilePath);
-            LOGGER.log(Level.INFO, "File saved temporarily at: {0}", tempFilePath);
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Failed to save file: " + tempFilePath, e);
+            LOGGER.log(Level.SEVERE, "Failed to save uploaded file: " + tempFilePath, e);
             request.setAttribute("error", "Failed to save uploaded file.");
             request.getRequestDispatcher("farmerSignUp.jsp").forward(request, response);
             return;
         }
 
-        // Đăng ký người dùng với document_path tạm thời
-        String documentPath = UPLOAD_DIR + "/" + username + "_" + fileName;
-        User newUser = new User(fullName, email, phone, username, password, address, role, documentPath);
-        boolean userSuccess = UserDAO.INSTANCE.register(newUser);
+        // Đăng ký user
+        String documentPath = UPLOAD_DIR + "/" + tempFileName;
+        User newUser = new User(fullName, email, phone, username, password, role, documentPath);
+        boolean registered = UserDAO.INSTANCE.register(newUser);
 
-        if (userSuccess) {
-            // Lấy user_id
-            int userId = UserDAO.INSTANCE.getUserIdByUsername(username);
-            if (userId == -1) {
-                LOGGER.log(Level.SEVERE, "Failed to retrieve user ID for username: {0}", username);
-                request.setAttribute("error", "Failed to retrieve user ID.");
-                request.getRequestDispatcher("farmerSignUp.jsp").forward(request, response);
-                return;
-            }
-
-            // Đổi tên file thành userId_filename
-            String finalFilePath = uploadPath + File.separator + userId + "_" + fileName;
-            File oldFile = new File(tempFilePath);
-            File newFile = new File(finalFilePath);
-            String finalDocumentPath = UPLOAD_DIR + "/" + userId + "_" + fileName;
-
-            if (oldFile.renameTo(newFile)) {
-                LOGGER.log(Level.INFO, "File renamed from {0} to {1}", new Object[]{tempFilePath, finalFilePath});
-                // Cập nhật document_path với userId
-                if (updateDocumentPath(userId, finalDocumentPath)) {
-                    LOGGER.log(Level.INFO, "Document path updated for userId {0}: {1}", new Object[]{userId, finalDocumentPath});
-                } else {
-                    LOGGER.log(Level.WARNING, "Failed to update document path for userId: {0}", userId);
-                }
-            } else {
-                LOGGER.log(Level.WARNING, "Failed to rename file from {0} to {1}", new Object[]{tempFilePath, finalFilePath});
-                // Vẫn tiếp tục với document_path tạm thời nếu đổi tên thất bại
-            }
-
-            request.setAttribute("ms1", "Farmer account successfully created! Awaiting verification.");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
-        } else {
-            LOGGER.log(Level.SEVERE, "Failed to register user: {0}", username);
-            request.setAttribute("error", "Failed to create farmer account. Please try again later.");
+        if (!registered) {
+            LOGGER.severe("Failed to register user.");
+            request.setAttribute("error", "Failed to create farmer account.");
             request.getRequestDispatcher("farmerSignUp.jsp").forward(request, response);
+            return;
         }
+
+        // Lấy lại user_id để đổi tên file
+        int userId = UserDAO.INSTANCE.getUserIdByUsername(username);
+        if (userId == -1) {
+            LOGGER.warning("Failed to get userId after registration.");
+            request.setAttribute("error", "Registration error.");
+            request.getRequestDispatcher("farmerSignUp.jsp").forward(request, response);
+            return;
+        }
+
+        String finalFileName = userId + "_" + fileName;
+        String finalFilePath = uploadPath + File.separator + finalFileName;
+        File oldFile = new File(tempFilePath);
+        File newFile = new File(finalFilePath);
+
+        String finalDocumentPath = UPLOAD_DIR + "/" + finalFileName;
+
+        if (oldFile.renameTo(newFile)) {
+            updateDocumentPath(userId, finalDocumentPath);
+        }
+
+        request.setAttribute("ms1", "Farmer account successfully created! Awaiting admin verification.");
+        request.getRequestDispatcher("login.jsp").forward(request, response);
     }
 
     private boolean updateDocumentPath(int userId, String documentPath) {
@@ -142,8 +140,7 @@ public class FarmerRegisterServlet extends HttpServlet {
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, documentPath);
             ps.setInt(2, userId);
-            int rowsUpdated = ps.executeUpdate();
-            return rowsUpdated > 0;
+            return ps.executeUpdate() > 0;
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error updating document path for userId " + userId, e);
             return false;

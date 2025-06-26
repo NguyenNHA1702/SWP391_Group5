@@ -254,7 +254,7 @@
             <input type="hidden" name="role" value="farmer">
 
             <label for="verificationDocs" style="display: block; text-align: left; margin-top: 10px;">Upload Verification Documents (e.g., Business License, Agricultural Certificate) *</label>
-            <input type="file" id="verificationDocs" name="verificationDocs" accept=".pdf,.jpg,.png" required>
+           <input type="file" id="verificationDocs" name="verificationDocs" multiple accept=".pdf,.jpg,.png,.docx,.zip" required>
 
             <button type="submit">Sign Up as Farmer</button>
         </form>
@@ -263,32 +263,6 @@
         <p>Sign up as a regular user? <a href="signup.jsp">Sign Up Here</a></p>
     </div>
 
-    <script>
-        function changeLanguage(lang) {
-            if (lang === 'vi') {
-                document.getElementById('signup-title').textContent = 'Đăng ký cho Nông dân';
-                document.querySelector('button').textContent = 'Đăng ký làm Nông dân';
-                document.querySelector('p:nth-child(4)').innerHTML = 'Đã có tài khoản? <a href="login.jsp">Đăng nhập tại đây</a>';
-                document.querySelector('p:nth-child(5)').innerHTML = 'Đăng ký làm người dùng thông thường? <a href="signup.jsp">Đăng ký tại đây</a>';
-                document.querySelector('input[name="fullname"]').placeholder = 'Họ và tên *';
-                document.querySelector('input[name="email"]').placeholder = 'Email *';
-                document.querySelector('input[name="phone"]').placeholder = 'Số điện thoại *';
-                document.querySelector('input[name="user"]').placeholder = 'Tên đăng nhập *';
-                document.querySelector('input[name="pass"]').placeholder = 'Mật khẩu *';
-                document.querySelector('label[for="verificationDocs"]').textContent = 'Tải lên tài liệu xác minh (ví dụ: Giấy phép kinh doanh, Giấy chứng nhận nông nghiệp) *';
-            } else {
-                document.getElementById('signup-title').textContent = 'Sign Up for Farmer';
-                document.querySelector('button').textContent = 'Sign Up as Farmer';
-                document.querySelector('p:nth-child(4)').innerHTML = 'Already have an account? <a href="login.jsp">Login here</a>';
-                document.querySelector('p:nth-child(5)').innerHTML = 'Sign up as a regular user? <a href="signup.jsp">Sign Up Here</a>';
-                document.querySelector('input[name="fullname"]').placeholder = 'Full Name *';
-                document.querySelector('input[name="email"]').placeholder = 'Email *';
-                document.querySelector('input[name="phone"]').placeholder = 'Phone Number *';
-                document.querySelector('input[name="user"]').placeholder = 'Username *';
-                document.querySelector('input[name="pass"]').placeholder = 'Password *';
-                document.querySelector('label[for="verificationDocs"]').textContent = 'Upload Verification Documents (e.g., Business License, Agricultural Certificate) *';
-            }
-        }
-    </script>
+
 </body>
 </html>

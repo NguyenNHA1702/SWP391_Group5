@@ -44,7 +44,7 @@ public class RegisterServlet extends HttpServlet {
         }
 
         // Đăng ký người dùng
-        User newUser = new User(fullName, email, phone, username, password, address, role);
+        User newUser = new User(fullName, email, phone, username, password, role, null);
         boolean success = UserDAO.INSTANCE.register(newUser);
 
         if (success) {

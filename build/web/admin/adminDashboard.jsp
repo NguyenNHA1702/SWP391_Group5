@@ -145,7 +145,7 @@
                         </div>
                         <div class="card-body">
                             <p class="card-text">View all users and manage spam or blocked accounts.</p>
-                            <a href="ManageUsersServlet" class="btn btn-custom">Go to Users</a>
+                               <a href="${pageContext.request.contextPath}/userManagement" class="btn btn-success">Go</a>
                         </div>
                     </div>
                 </div>

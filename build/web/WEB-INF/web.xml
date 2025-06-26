@@ -284,5 +284,14 @@
         <servlet-name>ContactServlet</servlet-name>
         <url-pattern>/ContactServlet</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+    <servlet-name>UserManagementServlet</servlet-name>
+    <servlet-class>controller.UserManagementServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserManagementServlet</servlet-name>
+        <url-pattern>/userManagement</url-pattern>
+    </servlet-mapping>
 
 </web-app>

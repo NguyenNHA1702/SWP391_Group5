@@ -41,7 +41,6 @@ public class UserProfileServlet extends HttpServlet {
         request.setAttribute("fullName", user.getFullName());
         request.setAttribute("email", user.getEmail());
         request.setAttribute("phone", user.getPhone());
-        request.setAttribute("address", user.getAddress());
         request.setAttribute("role", role);
         request.setAttribute("createdAt", user.getCreatedAt() != null ? user.getCreatedAt().toString() : "Not specified");
 

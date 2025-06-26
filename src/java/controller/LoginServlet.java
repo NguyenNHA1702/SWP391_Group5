@@ -9,15 +9,11 @@ import jakarta.servlet.http.HttpSession;
 import model.User;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class LoginServlet extends HttpServlet {
 
-    // Database connection details (update with your credentials)
+    // Nếu cần thiết cho thống kê tin nhắn chưa đọc
     private static final String DB_URL = "jdbc:sqlserver://localhost:1433;databaseName=AgriRescue_DB2";
     private static final String DB_USER = "sa";
     private static final String DB_PASSWORD = "123";
@@ -32,36 +28,38 @@ public class LoginServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-        // Input validation
         if (email == null || password == null || email.trim().isEmpty() || password.trim().isEmpty()) {
-            response.getWriter().print("error:missing_fields");
+            response.getWriter().print("missing");
             return;
         }
 
-        // Sanitize email to prevent injection (basic example, consider more robust sanitization)
+        // Xử lý chuẩn hóa email
         email = email.trim().toLowerCase();
 
         try {
             User user = UserDAO.checkLogin(email, password);
 
             if (user != null) {
-                HttpSession session = request.getSession(true); // Create new session if none exists
+                if (!Boolean.TRUE.equals(user.getApproved())) {
+                    response.getWriter().print("not_approved");
+                    return;
+                }
 
-                // Set session attributes
+                HttpSession session = request.getSession(true);
+
                 session.setAttribute("user", user.getUsername());
                 session.setAttribute("displayName", user.getFullName());
                 session.setAttribute("role", user.getRole());
                 session.setAttribute("userId", user.getUserId());
                 session.setAttribute("account", user);
 
-                // Set unread messages count
+                // ✅ Nếu cần: set số tin nhắn chưa đọc
                 int unreadMessages = getUnreadMessagesCount(user.getUserId());
                 session.setAttribute("unreadMessages", unreadMessages);
 
-                // Return success with role
                 response.getWriter().print("success:" + user.getRole().toLowerCase());
             } else {
-                response.getWriter().print("error:invalid_credentials");
+                response.getWriter().print("incorrect");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -69,7 +67,6 @@ public class LoginServlet extends HttpServlet {
         }
     }
 
-    // Method to count unread messages
     private int getUnreadMessagesCount(int userId) {
         int unreadCount = 0;
         String sql = "SELECT COUNT(*) AS count FROM messages WHERE receiver_id = ? AND is_read = 0";
@@ -82,9 +79,9 @@ public class LoginServlet extends HttpServlet {
                 unreadCount = rs.getInt("count");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            // Log error but don't expose details to client
+            e.printStackTrace(); // Có thể log lỗi
         }
+
         return unreadCount;
     }
 }
